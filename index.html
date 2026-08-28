@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dr. No's Comics & Games SuperStore | Georgia's Premier Comic & Gaming Hub Since 1977</title>
+  <meta name="description" content="Welcome to Dr. No's Comics & Games SuperStore in Marietta, GA. Explore weekly new releases, CGC graded grails, pull list subscriptions, MTG/Pokémon tournaments, and read comics with interactive 3D page flip." />
+  
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Core Comic Book Stylesheets -->
+  <link rel="stylesheet" href="./src/styles/base.css" />
+  <link rel="stylesheet" href="./src/styles/pageflip.css" />
+  <link rel="stylesheet" href="./src/styles/parallax.css" />
+  <link rel="stylesheet" href="./src/styles/components.css" />
+  <link rel="stylesheet" href="./src/styles/reader.css" />
+</head>
+<body>
+
+  <!-- Retro Ben-Day Halftone Dot Overlay -->
+  <div class="halftone-overlay" aria-hidden="true"></div>
+
+  <!-- Floating Corner Theme Toggle Widget (Desktop View Only) -->
+  <button id="theme-toggle-btn-desktop" class="floating-theme-corner-btn desktop-only-theme-btn theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Switch to Dark Graphic Novel Mode">
+    🌙
+  </button>
+
+  <!-- Parallax Multi-Layer World Background -->
+  <div class="parallax-world" aria-hidden="true">
+    <div class="parallax-layer-stars"></div>
+    <div class="parallax-layer-skyline"></div>
+    
+    <!-- Floating Comic Action Words -->
+    <div class="floating-comic-burst burst-pow">POW!</div>
+    <div class="floating-comic-burst burst-bam">BAM!</div>
+    <div class="floating-comic-burst burst-zap">ZAP!</div>
+    <div class="floating-comic-burst burst-boom">BOOM!</div>
+  </div>
+
+  <!-- Main App Layout Grid: Left Side Panel + Centered Comic Book Viewport -->
+  <div class="comic-layout-grid">
+
+    <!-- =================================================================
+         PERSISTENT LEFT SIDE PANEL: FCBD, ADDRESS, SCHEDULE, DISCORDS & SOCIALS
+         ================================================================= -->
+    <aside class="comic-side-panel" aria-label="Store Events and Community">
+
+      <!-- 1. Spotlight Slideshow & FCBD Card (Kept on mobile) -->
+      <div class="fcbd-card tilt-card" title="Dr. No's Spotlight & Free Comic Book Day">
+        <!-- Fading Slideshow (No arrows, smooth auto-fade transition) -->
+        <div class="side-fading-slideshow" id="side-spotlight-slideshow">
+          <img src="/assets/fcbd_event.png" alt="Free Comic Book Day - First Saturday of May" class="slideshow-slide active" />
+          <img src="/assets/new_comic_day_wednesday.jpg" alt="Join us at Dr. No's - New Comic Book Day Every Wednesday" class="slideshow-slide" />
+          <img src="/assets/nextdoor_fave.png" alt="2023 Neighborhood FAVE Nextdoor Winner" class="slideshow-slide" />
+        </div>
+        <div style="padding: 0.75rem; background: #0f172a; color: #fff; text-align: center;">
+          <span style="font-family: var(--font-display); font-size: 1rem; color: var(--comic-yellow); display: block; margin-bottom: 0.35rem;">FREE COMIC BOOK DAY</span>
+          
+          <!-- Live Countdown Grid: Days : Hours : Minutes : Seconds -->
+          <div id="fcbd-countdown" class="fcbd-countdown-grid">
+            <div class="countdown-unit">
+              <span class="countdown-val" id="fcbd-days">--</span>
+              <span class="countdown-lbl">DAYS</span>
+            </div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-val" id="fcbd-hours">--</span>
+              <span class="countdown-lbl">HRS</span>
+            </div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-val" id="fcbd-minutes">--</span>
+              <span class="countdown-lbl">MIN</span>
+            </div>
+            <span class="countdown-sep">:</span>
+            <div class="countdown-unit">
+              <span class="countdown-val" id="fcbd-seconds">--</span>
+              <span class="countdown-lbl">SEC</span>
+            </div>
+          </div>
+          
+          <div id="fcbd-target-date" style="font-family: var(--font-mono); font-size: 0.72rem; color: #94a3b8; margin-top: 0.35rem; font-weight: 700;">
+            Always 1st Saturday of May
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Store Address & Hours Notice (Desktop only) -->
+      <div class="side-events-box tilt-card side-hide-mobile">
+        <div class="comic-panel-header" style="background: #b45309; color: #fff;">
+          <span>📍 STORE LOCATION & HOURS</span>
+        </div>
+        <div style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.85rem;">
+          <strong style="color: var(--text-primary); font-size: 0.95rem; line-height: 1.3;">
+            3372 Canton Road, Suite 104<br>
+            Marietta, GA 30066
+          </strong>
+          <span style="color: var(--text-muted); font-size: 0.8rem;">Blackwell Square Shopping Center</span>
+          
+          <div style="background: rgba(250, 204, 21, 0.2); border: 1.5px solid var(--border-comic); border-radius: 6px; padding: 0.45rem 0.6rem; margin-top: 0.2rem;">
+            <p class="sidebar-lead-subtitle">
+              "Dr. No's is open 363 days a year. We are Closed Thanksgiving and Christmas!"
+            </p>
+          </div>
+
+          <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-primary); margin-top: 0.2rem; display: flex; flex-direction: column; gap: 0.25rem;">
+            <div>📞 <strong><a href="tel:7704224642" style="color: inherit; text-decoration: underline;">(770) 422-4642</a></strong> <span style="font-size: 0.72rem; color: var(--text-muted);">(Main)</span></div>
+            <div>📱 <strong><a href="tel:6789033705" style="color: inherit; text-decoration: underline;">(678) 903-3705</a></strong> <span style="font-size: 0.72rem; color: var(--text-muted);">(Secondary)</span></div>
+          </div>
+
+          <a href="https://maps.google.com/?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.78rem; padding: 0.35rem 0.6rem; width: 100%; margin-top: 0.3rem;">
+            🗺️ GET DIRECTIONS
+          </a>
+        </div>
+      </div>
+
+      <!-- 3. Exact Weekly Events Schedule Card with Official Logos (Desktop only) -->
+      <div class="side-events-box tilt-card side-hide-mobile">
+        <div class="comic-panel-header" style="background: #0f172a; color: var(--comic-yellow);">
+          <span>📅 WEEKLY EVENTS @ DR. NO'S</span>
+        </div>
+        
+        <!-- Wednesday -->
+        <div style="padding: 0.75rem 0.85rem; border-bottom: 2px solid var(--border-comic); background: rgba(250, 204, 21, 0.1);">
+          <div style="display: flex; align-items: center; justify-content: space-between;">
+            <span class="amber-highlight-text" style="font-family: var(--font-display); font-size: 1.1rem;">⚡ WEDNESDAY</span>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 800; background: #0f172a; color: var(--comic-yellow); padding: 0.1rem 0.4rem; border-radius: 4px;">11:00 AM</span>
+          </div>
+          <strong style="color: var(--text-primary); font-size: 0.88rem; display: block; margin-top: 0.2rem;">New Comics Arrive at Dr. No's!</strong>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); line-height: 1.3; margin-top: 0.2rem;">
+            Get all of the most recent titles of all of your favorite characters, and find a few new favorites!
+          </p>
+        </div>
+
+        <!-- Friday Schedule with Official Logos -->
+        <div style="padding: 0.75rem 0.85rem; border-bottom: 2px solid var(--border-comic); background: var(--bg-surface);">
+          <span style="font-family: var(--font-display); font-size: 1.1rem; color: #0284c7; display: block; margin-bottom: 0.4rem;">⚔️ FRIDAYS</span>
+          
+          <div style="display: flex; flex-direction: column; gap: 0.55rem;">
+            <!-- Pokemon -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 0.35rem;">
+              <div>
+                <img src="/assets/logo_pokemon.png" alt="Pokémon" style="height: 22px; object-fit: contain; display: block;" />
+                <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">Pokémon League</span>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">4:00pm - 6:00pm</span>
+            </div>
+
+            <!-- Boardgames -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 0.35rem;">
+              <span style="font-size: 0.8rem; font-weight: 800; color: var(--text-primary);">🎲 Boardgames Open Play</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">4:00pm - 8:00pm</span>
+            </div>
+
+            <!-- Magic -->
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 0.35rem;">
+              <div>
+                <img src="/assets/logo_mtg.png" alt="Magic: The Gathering" style="height: 20px; object-fit: contain; display: block;" />
+                <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">MTG Booster Draft</span>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">6:00pm</span>
+            </div>
+
+            <!-- Yu-Gi-Oh -->
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <img src="/assets/logo_yugioh.png" alt="Yu-Gi-Oh!" style="height: 18px; object-fit: contain; display: block;" />
+                <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">Yu-Gi-Oh! Tournament</span>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">7:00pm</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saturday Weekend Events -->
+        <div class="side-saturday-box" style="padding: 0.75rem 0.85rem;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.3rem;">
+            <span class="side-saturday-title" style="font-family: var(--font-display); font-size: 1.1rem;">🏆 SATURDAY TOURNAMENTS</span>
+          </div>
+          <ul class="side-saturday-list" style="list-style: square inside; font-size: 0.76rem; line-height: 1.45;">
+            <li><strong>One Piece CCG:</strong> 2nd Sat of every month ($5 entry)</li>
+            <li><strong>Yu-Gi-Oh Celebration & Preview:</strong> Konami Weekend events ($5-$20, playmats & promo cards)</li>
+            <li><strong>Magic Pre-release, Release & Game Day:</strong> Boosters & special promo cards!</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4. Community, Socials & Discords Area (Desktop only) -->
+      <div class="side-events-box tilt-card side-hide-mobile">
+        <div class="comic-panel-header" style="background: #1e293b;">
+          <span>🌐 SOCIALS & DISCORD HUB</span>
+        </div>
+        <div style="padding: 0.85rem; display: flex; flex-direction: column; gap: 0.55rem;">
+          <a href="http://www.facebook.com/pages/Dr-Nos-Comics-Games-Superstore/114205048645706" target="_blank" rel="noopener noreferrer" class="btn btn-facebook" style="width: 100%; font-size: 0.82rem; padding: 0.5rem 0.65rem;">
+            📘 OFFICIAL FACEBOOK
+          </a>
+          <a href="https://www.instagram.com/drnoscomics" target="_blank" rel="noopener noreferrer" class="btn btn-instagram" style="width: 100%; font-size: 0.82rem; padding: 0.5rem 0.65rem;">
+            📸 INSTAGRAM (@drnoscomics)
+          </a>
+          <a href="https://x.com/drnoscomics?s=20" target="_blank" rel="noopener noreferrer" class="btn btn-twitter" style="width: 100%; font-size: 0.82rem; padding: 0.5rem 0.65rem;">
+            ✖️ TWITTER / X (@drnoscomics)
+          </a>
+          <a href="https://discord.gg/HdwQxcZ" target="_blank" rel="noopener noreferrer" class="btn btn-discord btn-discord-games" style="width: 100%; font-size: 0.82rem; padding: 0.5rem 0.65rem;">
+            🎮 DR. NO'S GAMES DISCORD
+          </a>
+          <a href="https://discord.gg/QG5Rqfm" target="_blank" rel="noopener noreferrer" class="btn btn-discord btn-discord-comics" style="width: 100%; font-size: 0.82rem; padding: 0.5rem 0.65rem;">
+            💬 DR. NO'S COMICS DISCORD
+          </a>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Comic Book Container with 3D Spine and Perspective Frame -->
+    <div class="comic-book-container">
+      <main class="comic-book" id="comic-book-app">
+
+        <!-- Comic Book Header / Department Ribbons Navigation (Spacious 2-Tier Header) -->
+        <header class="comic-book-spine-nav" id="main-spine-header">
+          <!-- TIER 1: Brand & Contact Info Bar -->
+          <div class="spine-nav-top-row">
+            <div class="spine-brand-wrap">
+              <a href="#home" class="spine-brand">
+                <img src="/assets/logo_drnos.png" alt="Dr. No's Comics & Games" style="height: 38px; width: auto; max-width: 140px; object-fit: contain; filter: drop-shadow(2px 2px 0 rgba(15, 23, 42, 0.35));" />
+                <span class="spine-badge">EST. 1977</span>
+              </a>
+            </div>
+
+            <!-- Contact Pills & Utilities -->
+            <div class="spine-nav-actions">
+              <!-- Full Length Quick-Contact Pills on Desktop -->
+              <div class="header-contact-group desktop-only-contact" aria-label="Store Quick Contact">
+                <a href="https://maps.google.com/?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066" target="_blank" rel="noopener noreferrer" class="header-pill-link" title="Blackwell Square, Marietta GA">
+                  <span class="header-pill-icon">📍</span>
+                  <span class="header-pill-text">3372 Canton Rd, Ste 104, Marietta, GA</span>
+                </a>
+                <a href="tel:7704224642" class="header-pill-link header-pill-phone" title="Call Primary Line: (770) 422-4642">
+                  <span class="header-pill-icon">📞</span>
+                  <span class="header-pill-text">(770) 422-4642</span>
+                </a>
+                <a href="tel:6789033705" class="header-pill-link header-pill-phone" title="Call Secondary Line: (678) 903-3705">
+                  <span class="header-pill-icon">📱</span>
+                  <span class="header-pill-text">(678) 903-3705</span>
+                </a>
+              </div>
+
+              <!-- Mobile Header Theme Toggle Button (Mobile View Only) -->
+              <button id="theme-toggle-btn-mobile" class="theme-toggle-btn mobile-only-theme-btn" aria-label="Toggle Dark/Light Mode" title="Switch to Dark Graphic Novel Mode">
+                🌙
+              </button>
+
+              <!-- Standard Animated 3-Bar Hamburger Toggle Button -->
+              <button id="mobile-menu-toggle" class="hamburger-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TIER 2: Dedicated Full-Width Issue Bookmark Tabs (Desktop) -->
+          <div class="spine-nav-bottom-row desktop-only-tabs">
+            <nav class="bookmark-tabs" aria-label="Comic Book Departments">
+              <button class="tab-bookmark active" data-target="0" title="Home Page">
+                <span>🏠 HOME</span>
+              </button>
+              <button class="tab-bookmark" data-target="1" title="aboutus.html">
+                <span>📖 ABOUT</span>
+              </button>
+              <button class="tab-bookmark" data-target="2" title="events.html">
+                <span>🎲 EVENTS</span>
+              </button>
+              <button class="tab-bookmark" data-target="3" title="New Arrivals">
+                <span>⚡ NEW ARRIVALS</span>
+              </button>
+              <button class="tab-bookmark" data-target="4" title="ordering.html">
+                <span>📦 ORDERING</span>
+                <span class="tab-badge" id="tab-pull-badge">2</span>
+              </button>
+              <button class="tab-bookmark" data-target="5" title="onlinestore.html">
+                <span>💎 STORE</span>
+              </button>
+              <button class="tab-bookmark" data-target="6" title="directions.html">
+                <span>📍 DIRECTIONS & HOURS</span>
+              </button>
+              <button class="tab-bookmark" data-target="7" title="drnoscomicsandgames.blogspot.com">
+                <span>📰 BLOG</span>
+              </button>
+            </nav>
+          </div>
+
+          <!-- Standard Dropdown Mobile Navigation Menu (Attached directly to Header) -->
+          <div id="mobile-nav-drawer" class="mobile-dropdown-menu" aria-hidden="true">
+            <div class="mobile-dropdown-inner">
+              <div class="mobile-dropdown-items">
+                <button class="mobile-menu-item active" data-target="0">
+                  <span class="menu-item-icon">🏠</span>
+                  <span class="menu-item-label">Home</span>
+                  <span class="menu-item-tag">Issue #1</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="1">
+                  <span class="menu-item-icon">📖</span>
+                  <span class="menu-item-label">About Us & Staff</span>
+                  <span class="menu-item-tag">Issue #2</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="2">
+                  <span class="menu-item-icon">🎲</span>
+                  <span class="menu-item-label">Events & Tournaments</span>
+                  <span class="menu-item-tag">Issue #3</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="3">
+                  <span class="menu-item-icon">⚡</span>
+                  <span class="menu-item-label">New Arrivals Radar</span>
+                  <span class="menu-item-tag">Issue #4</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="4">
+                  <span class="menu-item-icon">📦</span>
+                  <span class="menu-item-label">Ordering & Previews</span>
+                  <span class="menu-item-tag">Issue #5</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="5">
+                  <span class="menu-item-icon">💎</span>
+                  <span class="menu-item-label">Store & Back Issues</span>
+                  <span class="menu-item-tag">Issue #6</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="6">
+                  <span class="menu-item-icon">📍</span>
+                  <span class="menu-item-label">Directions & Store Hours</span>
+                  <span class="menu-item-tag">Issue #7</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+                <button class="mobile-menu-item" data-target="7">
+                  <span class="menu-item-icon">📰</span>
+                  <span class="menu-item-label">The Doctor Knows Blog</span>
+                  <span class="menu-item-tag">Issue #8</span>
+                  <span class="menu-item-chevron">›</span>
+                </button>
+              </div>
+
+              <!-- Mobile Quick Store Contacts Footer -->
+              <div class="mobile-dropdown-footer">
+                <div style="display: flex; gap: 0.5rem; justify-content: space-between;">
+                  <a href="tel:7704224642" class="btn btn-primary" style="flex: 1; font-size: 0.8rem; padding: 0.45rem 0.5rem; justify-content: center;">
+                    📞 (770) 422-4642
+                  </a>
+                  <a href="https://maps.google.com/?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="flex: 1; font-size: 0.8rem; padding: 0.45rem 0.5rem; justify-content: center;">
+                    🗺️ Marietta Store
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Comic Book Viewport (Contains all 7 Flippable Comic Spread Pages) -->
+        <div class="comic-pages-viewport">
+
+          <!-- =================================================================
+               PAGE 1: HOME (Hero moved up directly below the navbar)
+               ================================================================= -->
+          <article class="comic-page active" data-page-id="home" data-page-title="Issue #1: Home">
+            
+            <!-- Parallax Hero Stage (Positioned directly at the top) -->
+            <section class="hero-parallax-stage" style="margin-bottom: 2rem;">
+              <div class="hero-bg-art" style="background-image: url('/assets/storefront.png');"></div>
+              <div class="hero-overlay-gradient"></div>
+              
+              <div class="hero-content-layer">
+                <div class="sound-burst red" style="margin-bottom: 0.85rem; font-size: 1.05rem;">
+                  💥 GEORGIA'S PREMIER COMIC & GAMING SUPERSTORE
+                </div>
+                <h1 class="comic-title-burst" style="font-size: clamp(2.4rem, 4.8vw, 4rem); margin-bottom: 0.75rem;">
+                  ENTER THE LEGENDARY VAULT!
+                </h1>
+                <p style="font-size: 1.12rem; color: #e2e8f0; line-height: 1.6; margin-bottom: 1.5rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);">
+                  Marietta's home for new comic drops every Wednesday, vintage CGC graded grails, Magic: The Gathering tournaments, and over 100,000 back issues since 1977.
+                </p>
+                
+                <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+                  <button id="hero-btn-new-releases" class="btn btn-primary" style="font-size: 1rem;">
+                    ⚡ NEW ARRIVALS
+                  </button>
+                  <button id="hero-btn-events" class="btn btn-danger" style="font-size: 1rem;">
+                    📅 UPCOMING EVENTS
+                  </button>
+                  <button id="hero-btn-pull-list" class="btn btn-outline-comic" style="font-size: 1rem;">
+                    📦 PULL-BOX ORDERING
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <!-- Homepage Blog Section: From The Doctor Knows Blog -->
+            <section style="margin-bottom: 2rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                  <span class="sound-burst red" style="font-size: 0.85rem; margin-bottom: 0.2rem;">LATEST DISPATCHES</span>
+                  <h2 class="comic-title-burst" style="font-size: 1.85rem;">FROM THE BLOG: THE DOCTOR KNOWS</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button class="btn btn-outline-comic btn-open-blog-archive" style="font-size: 0.82rem; padding: 0.4rem 0.75rem;">
+                    📚 BLOG ARCHIVE
+                  </button>
+                  <button class="btn btn-primary" onclick="document.querySelector('.tab-bookmark[data-target=\'7\']').click()" style="font-size: 0.82rem; padding: 0.4rem 0.75rem;">
+                    BROWSE ALL DISPATCHES ➔
+                  </button>
+                </div>
+              </div>
+
+              <!-- Dynamic Blog Cards Grid populated from live Blogger feed -->
+              <div class="blog-grid-container" id="home-blog-cards-grid">
+                <!-- Populated dynamically by blogUI.js -->
+              </div>
+            </section>
+
+            <!-- Corner Curls for Tactile Page Turning -->
+            <div class="page-curl page-curl-right" title="Flip to About Us">
+              <span class="page-curl-label">ABOUT ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 2: ABOUT US (aboutus.html)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="about" data-page-title="Issue #2: About Dr. No's">
+            <!-- Header Section -->
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                🏛️ ESTABLISHED 1977 • MARIETTA, GEORGIA
+              </div>
+              <h2 class="comic-title-burst" style="font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 0.5rem;">
+                DR. NO'S COMICS AND GAMES!
+              </h2>
+            <!-- Storefront Photo Feature -->
+            <div class="comic-panel-box tilt-card" style="margin-bottom: 2.25rem; border-radius: 12px; overflow: hidden;">
+              <div style="position: relative; max-height: 380px; overflow: hidden; background: #0f172a;">
+                <img src="/assets/storefront.png" alt="Dr. No's Comics and Games SuperStore Storefront in Blackwell Square" style="width: 100%; height: 100%; max-height: 380px; object-fit: cover; object-position: center 35%; display: block;" />
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem;">
+                  <div>
+                    <span class="badge" style="background: var(--comic-red); color: #fff; font-family: var(--font-display); font-size: 0.85rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1.5px solid #0f172a; margin-bottom: 0.35rem; display: inline-block;">
+                      📍 BLACKWELL SQUARE • MARIETTA, GA
+                    </span>
+                    <h3 style="font-family: var(--font-display); font-size: 1.7rem; color: #ffffff; text-shadow: 2px 2px 0 #000; letter-spacing: 0.04em;">
+                      DR. NO'S COMICS & GAMES SUPERSTORE
+                    </h3>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--comic-yellow); font-weight: 800; background: rgba(0, 0, 0, 0.65); padding: 0.3rem 0.75rem; border-radius: 6px; border: 1px solid var(--comic-yellow);">
+                    ⭐ ESTABLISHED 1977
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- History & Scale Overview Grid -->
+            <div class="about-grid" style="margin-bottom: 2.5rem;">
+              <!-- Legacy Story -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem;">
+                  <span>📜 OUR STORY (EST. 1977)</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Founded in 1977 • Owned by Cliff Since 1982</h4>
+                <p style="font-size: 0.94rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1rem;">
+                  Dr. No's was founded back in 1977. Cliff and Ward took over the store in 1982, and the rest, as they say, is history. Currently, the store is solely owned by Cliff, who has as much enthusiasm for comics today as he did when he was growing up and creating his own fanzines (look that one up kids.)
+                </p>
+                <div class="amber-highlight-box">
+                  💡 47+ Years of Dedication to Comic Culture & Community
+                </div>
+              </div>
+
+              <!-- What We Offer / Scale -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #0284c7; color: #fff;">
+                  <span>⭐ LARGEST COLLECTION IN THE SOUTH</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Cobb County's Premier Comic & Gaming SuperStore</h4>
+                <p style="font-size: 0.94rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1rem;">
+                  In our time, we have carried a little bit of everything before deciding to focus on the comics and games side of things. We are currently the largest comics and games store in Cobb County and have the largest trade paperback collection in the south.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <span class="badge" style="background: #0f172a; color: #fff; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">100k+ Back Issues</span>
+                  <span class="badge" style="background: #0f172a; color: #fff; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Largest TPB Library</span>
+                  <span class="badge" style="background: #0f172a; color: #fff; font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">Full Gaming Arena</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Meet The Team Section -->
+            <div style="margin-bottom: 3rem;">
+              <div style="margin-bottom: 1.25rem;">
+                <span class="sound-burst red" style="font-size: 0.85rem; margin-bottom: 0.2rem;">THE DOCTOR NO'S CREW</span>
+                <h3 class="font-display" style="font-size: 2rem; color: var(--text-primary);">MEET OUR PASSIONATE TEAM</h3>
+              </div>
+
+              <!-- 6 Team Member Cards with Actual Photos -->
+              <div class="about-team-grid">
+                
+                <!-- 1. Cliff -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/CliffPic.jpg" alt="Cliff - Owner of Dr. No's Comics and Games" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">CLIFF</h4>
+                    <span class="staff-role-badge">Owner of Dr. No's Comics and Games</span>
+                    <p class="staff-bio">
+                      Owner of Dr. No's Comics and Games, Cliff can be elusive to find at the store at times, but he is always pleasant when found. His knowledge of the comics industry is amazing, and his ability to multi-task is second to none.
+                    </p>
+                    <div class="staff-contact-action">
+                      <a href="mailto:manager@drnos.com?subject=Contact%20Cliff" class="btn btn-outline-comic" style="font-size: 0.82rem; padding: 0.35rem 0.75rem; width: 100%;">
+                        ✉️ Contact Cliff ➔
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. Buck -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/Buck.jfif" alt="Buck - Store Manager & Games Manager" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">BUCK</h4>
+                    <span class="staff-role-badge">Store Manager & Games Manager</span>
+                    <p class="staff-bio">
+                      Store Manager and Games Manager of Dr. NO's. Buck is the vivacious, entertaining, aide-in-arms to the store. He is the master of the special order, and goes to great lengths to ensure that customers get what they deserve--in a good way.
+                    </p>
+                    <div class="staff-contact-action">
+                      <a href="mailto:manager@drnos.com?subject=Contact%20Buck" class="btn btn-outline-comic" style="font-size: 0.82rem; padding: 0.35rem 0.75rem; width: 100%;">
+                        ✉️ Contact Buck ➔
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Izzy -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/IMG_3979.gif" alt="Izzy - Comics Manager" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">IZZY</h4>
+                    <span class="staff-role-badge">Comics Manager</span>
+                    <p class="staff-bio">
+                      Comics Manager of Dr. No's. Inexplicably friendly and reclusive, soft-spoken Izzy has a passion for indie comics, reptiles, tattoos and cool hair. Super helpful when you need to find something a little different, and maybe just a bit creepy, Izzy is the one to help!
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 4. Tom -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/IMG_4388.gif" alt="Tom - Weekend Manager" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">TOM</h4>
+                    <span class="staff-role-badge">Weekend Manager</span>
+                    <p class="staff-bio">
+                      Weekend Manager of Dr. No's. Action figure movie director. Movie nut. Has a different view of the world at large. Master of Magic: the Gathering and avid collector of... just about every card game imaginable. Tom also has an eclectic taste in his comics so he can help a customer find the out of the way titles.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 5. Jair -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/Jair.jfif" alt="Jair - GSU Graduate & Comic Reviewer" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">JAIR</h4>
+                    <span class="staff-role-badge">GSU Graduate & Comic Reviewer</span>
+                    <p class="staff-bio">
+                      Jair is a GSU graduate, veteran sandwich artist, and aspiring writer. Feel free to ask him about the X-Men or his anime car sometime. Jair's Comic Review helps folks understand maybe even appreciate something they haven't seen before! Jair believes all comics are good. They represent human expression, dreams put to a page through days, months, and years of dedication. They are windows into other worlds, aspirations of all we can be, warnings of what we may become and everything in between. Above all he believes that comics can help us understand the things we often don't consider.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- 6. Shelley -->
+                <div class="staff-card tilt-card">
+                  <div class="staff-avatar-wrap">
+                    <img src="/assets/Shelley.jpg" alt="Shelley - Former Comic Shop Owner & Specialist" class="staff-avatar-img" />
+                  </div>
+                  <div class="staff-card-body">
+                    <h4 class="staff-name">SHELLEY</h4>
+                    <span class="staff-role-badge">Former Comic Shop Owner & Specialist</span>
+                    <p class="staff-bio">
+                      Shelley has many years of experience in comics, including almost a decade as owner of her own comic shop, Teahouse Comics. We were thrilled to have her bring her expertise to our team. Her enthusiasm for comics of all sorts, from superheroes to manga to indy to experimental, comes through in every conversation.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to Home">
+              <span class="page-curl-label">HOME ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to Events">
+              <span class="page-curl-label">EVENTS ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 3: IN-STORE EVENTS & TOURNAMENTS (events.html)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="events" data-page-title="Issue #3: Events & Tournaments">
+            <!-- Header Section -->
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                ⚔️ COMMUNITY & ORGANIZED PLAY HEADQUARTERS
+              </div>
+              <h2 class="comic-title-burst" style="font-size: clamp(2rem, 3.5vw, 2.7rem); margin-bottom: 0.5rem;">
+                DR. NO'S PROUDLY HOSTS THESE IN-STORE EVENTS
+              </h2>
+              <p style="color: var(--text-secondary); max-width: 820px; font-size: 1.05rem; line-height: 1.5; margin-bottom: 1.25rem;">
+                Join our vibrant tabletop and comic community! We host weekly sanctioned gaming tournaments, new comic release days, and major annual celebrations in Blackwell Square.
+              </p>
+
+              <!-- Discord Community Join Hub -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                  <h4 style="font-family: var(--font-heading); font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.2rem;">
+                    🌐 JOIN OUR DISCORD COMMUNITY
+                  </h4>
+                  <p style="font-size: 0.88rem; color: var(--text-secondary);">
+                    Connect with fellow collectors, duelists, and store managers for trade nights, announcements, and deck discussions!
+                  </p>
+                </div>
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                  <a href="https://discord.gg/QG5Rqfm" target="_blank" rel="noopener noreferrer" class="btn btn-discord" style="font-size: 0.88rem; padding: 0.5rem 1rem;">
+                    💬 Dr. No's Comics Discord ↗
+                  </a>
+                  <a href="https://discord.gg/HdwQxcZ" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.88rem; padding: 0.5rem 1rem; background: #5865f2; border-color: #0f172a;">
+                    🎮 Dr. No's Games Discord ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1. Annual Events Banner: Free Comic Book Day -->
+            <div style="margin-bottom: 2.5rem;">
+              <div class="sound-burst red" style="font-size: 0.85rem; margin-bottom: 0.4rem;">
+                🌟 ANNUAL STORE CELEBRATIONS
+              </div>
+              <div class="comic-panel-box tilt-card discord-community-banner">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                  <div style="max-width: 600px;">
+                    <span class="badge" style="background: var(--comic-red); color: #fff; font-family: var(--font-display); font-size: 0.95rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1.5px solid #0f172a; display: inline-block; margin-bottom: 0.5rem;">
+                      MAY 1ST TRADITION
+                    </span>
+                    <h3 style="font-family: var(--font-display); font-size: 2rem; color: var(--text-primary); margin-bottom: 0.4rem;">
+                      FREE COMIC BOOK DAY!
+                    </h3>
+                    <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5;">
+                      <strong>Schedule:</strong> 1st Saturday in May • Blackwell Square Shopping Center<br>
+                      Join us for our biggest annual community festival! Free comic books for readers of all ages, special guest creator signings, costume contests, and exclusive store specials!
+                    </p>
+                  </div>
+                  <div style="text-align: center; min-width: 220px;">
+                    <a href="tel:7704224642" class="btn btn-primary" style="font-size: 0.9rem; padding: 0.6rem 1.2rem; width: 100%;">
+                      📞 (770) 422-4642
+                    </a>
+                    <span style="font-size: 0.75rem; color: #64748b; display: block; margin-top: 0.35rem; font-weight: 700;">
+                      Always the 1st Saturday in May
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Weekly & Special Events Showcase -->
+            <div style="margin-bottom: 2.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                  <div class="sound-burst blue" style="font-size: 0.85rem; margin-bottom: 0.2rem;">WEEKLY CALENDAR</div>
+                  <h3 class="font-display" style="font-size: 1.85rem; color: var(--text-primary);">WEEKLY & SPECIAL EVENTS</h3>
+                </div>
+                <span style="font-size: 0.85rem; color: var(--comic-green); font-weight: 800; background: rgba(16, 185, 129, 0.1); padding: 0.3rem 0.65rem; border-radius: 6px; border: 1.5px solid rgba(16, 185, 129, 0.3);">
+                  ● WEEKLY & MONTHLY ORGANIZED PLAY
+                </span>
+              </div>
+
+              <!-- Days Overview: Tuesday & Wednesday -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+                <!-- Tuesday & Thursday -->
+                <div class="comic-panel-box tilt-card" style="padding: 1.25rem;">
+                  <div class="comic-panel-header" style="margin: -1.25rem -1.25rem 1rem -1.25rem; background: #475569; color: #fff;">
+                    <span>🎲 TUESDAY & THURSDAY</span>
+                  </div>
+                  <h4 style="font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.3rem;">Open Casual Gaming & Tabletop</h4>
+                  <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                    Open gaming tables available all day for casual board gaming, RPG campaigns, and deck testing. Feel free to bring your group!
+                  </p>
+                </div>
+
+                <!-- Wednesday -->
+                <div class="comic-panel-box tilt-card" style="padding: 1.25rem;">
+                  <div class="comic-panel-header" style="margin: -1.25rem -1.25rem 1rem -1.25rem; background: #b45309; color: #fff;">
+                    <span>⚡ WEDNESDAY @ 11:00 AM</span>
+                  </div>
+                  <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.3rem;">New Comics Arrive at Dr. No's!</h4>
+                  <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 0.5rem;">
+                    <strong>Time:</strong> 11:00 am<br>
+                    Get all of the most recent titles of all of your favorite characters, and maybe find a few new favorites!
+                  </p>
+                  <button class="btn btn-outline-comic" onclick="document.querySelector('.tab-bookmark[data-target=\'3\']').click()" style="font-size: 0.8rem; padding: 0.35rem 0.75rem; width: 100%;">
+                    VIEW THIS WEEK'S ARRIVALS ➔
+                  </button>
+                </div>
+              </div>
+
+              <!-- Friday & Saturday Dynamic Tournament Cards Grid -->
+              <div style="margin-top: 1rem;">
+                <h4 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--text-primary); margin-bottom: 1rem;">
+                  ⚔️ FRIDAY & SATURDAY TOURNAMENT LINEUP
+                </h4>
+                <div class="tournament-grid" id="tcg-events-grid">
+                  <!-- Rendered dynamically by ui.js with all Friday & Saturday events -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact & Caturday Information Footer Box -->
+            <div style="background: #0f172a; color: #ffffff; border: 3px solid var(--comic-yellow); border-radius: 12px; padding: 1.5rem 1.75rem; margin-bottom: 3rem; box-shadow: var(--shadow-comic-lg);">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                <div>
+                  <h4 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--comic-yellow); margin-bottom: 0.3rem;">
+                    NEED MORE EVENT INFORMATION?
+                  </h4>
+                  <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.5;">
+                    For more information, call us at <a href="tel:7704224642" style="color: var(--comic-yellow); font-weight: 800; text-decoration: underline;">770-422-4642</a> or e-mail us at <a href="mailto:manager@drnos.com" style="color: var(--comic-yellow); font-weight: 800; text-decoration: underline;">manager@drnos.com</a>
+                  </p>
+                </div>
+
+                <div style="background: rgba(250, 204, 21, 0.15); border: 2px dashed var(--comic-yellow); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: center;">
+                  <span style="font-family: var(--font-display); font-size: 1.15rem; color: var(--comic-yellow); display: block;">
+                    🐾 CATURDAY
+                  </span>
+                  <span style="font-family: var(--font-mono); font-size: 0.85rem; color: #f8fafc; font-weight: 700;">
+                    Collect Thunderpants ... Profit! ⚡
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to About">
+              <span class="page-curl-label">ABOUT ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to New Arrivals">
+              <span class="page-curl-label">ARRIVALS ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 4: NEW ARRIVALS (New Releases Radar)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="new-arrivals" data-page-title="Issue #4: New Arrivals">
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst blue" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                ⚡ NEW COMIC WEDNESDAY RADAR
+              </div>
+              <h2 class="comic-title-burst" style="font-size: 2.4rem; margin-bottom: 0.5rem;">
+                NEW ARRIVALS & VARIANT COVERS
+              </h2>
+              <p style="color: var(--text-secondary); max-width: 750px;">
+                Browse all new weekly arrivals hitting Dr. No's shelves every Wednesday at 11:00 AM. Add issues directly to your Pull-Box subscription!
+              </p>
+            </div>
+
+            <!-- New Comic Day Feature Banner -->
+            <div class="comic-panel-box tilt-card" style="margin-bottom: 2.25rem; border-radius: 12px; overflow: hidden;">
+              <div style="position: relative; max-height: 320px; overflow: hidden; background: #0f172a;">
+                <img src="/assets/new_comic_day_wednesday.jpg" alt="New Comic Day Every Wednesday at Dr. No's" style="width: 100%; height: 100%; max-height: 320px; object-fit: cover; object-position: center; display: block;" />
+                <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem;">
+                  <div>
+                    <span class="badge" style="background: var(--comic-red); color: #fff; font-family: var(--font-display); font-size: 0.85rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1.5px solid #0f172a; margin-bottom: 0.35rem; display: inline-block;">
+                      🗓️ EVERY WEDNESDAY AT 11:00 AM
+                    </span>
+                    <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #ffffff; text-shadow: 2px 2px 0 #000;">
+                      JOIN US FOR NEW COMIC BOOK DAY!
+                    </h3>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--comic-yellow); font-weight: 800; background: rgba(0, 0, 0, 0.65); padding: 0.3rem 0.75rem; border-radius: 6px; border: 1px solid var(--comic-yellow);">
+                    💥 100+ NEW TITLES WEEKLY
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Distributor Release Lists & Publisher Hubs -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+              <!-- 1. PRH Publisher Hub -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #dc2626; color: #fff;">
+                  <span>🦸 MARVEL & PRH COMICS</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Marvel, Dark Horse, IDW & Boom!</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  Fresh weekly issues from Marvel Comics, Dark Horse, IDW Publishing, and Boom! Studios. Check out the latest release checklists and previews.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="https://prhcomics.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem; background: #dc2626; border-color: #0f172a;">
+                    📕 PRH Release Lists ↗
+                  </a>
+                </div>
+              </div>
+
+              <!-- 2. Lunar Distribution Hub -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #0284c7; color: #fff;">
+                  <span>🦇 DC & LUNAR DISTRIBUTION</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">DC Comics, Image, Titan & Mad Cave</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  Complete weekly drops for the DC Universe, Batman, Superman, Image Comics creator-owned blockbusters, and indie hits.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="https://www.lunardistribution.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem; background: #0284c7; border-color: #0f172a;">
+                    🌙 Lunar Releases ↗
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3. Previews & Ordering Hub -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #10b981; color: #fff;">
+                  <span>📦 PULL LIST & SPECIAL ORDERS</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Guarantee Your Weekly Copies</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  Want to make sure you never miss an issue or variant? Subscribe with our free in-store Pull Box or submit online prepaid monthly orders for discounts!
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <button class="btn btn-primary" onclick="document.querySelector('.tab-bookmark[data-target=\'4\']').click()" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    📦 Go to Ordering ➔
+                  </button>
+                  <a href="tel:7704224642" class="btn btn-outline-comic" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    📞 (770) 422-4642
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to Events">
+              <span class="page-curl-label">EVENTS ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to Ordering">
+              <span class="page-curl-label">ORDERING ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 5: ORDERING & PULL BOX (ordering.html)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="ordering" data-page-title="Issue #5: Ordering & Pull Box">
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst red" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                📦 PREPAID ORDERS & PREVIEWS
+              </div>
+              <h2 class="comic-title-burst" style="font-size: clamp(2rem, 3.8vw, 2.6rem); margin-bottom: 0.5rem;">
+                SUBSCRIBERS & SPECIAL ORDER CUSTOMERS!
+              </h2>
+              <p style="color: var(--text-secondary); max-width: 820px; font-size: 1rem; line-height: 1.6;">
+                Turn in a prepaid order online to guarantee your favorite titles! Orders are entered directly into our system and ready for pickup the next time you visit.
+              </p>
+            </div>
+
+            <!-- Guarantee & Benefits Highlights Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+              <div class="comic-panel-box tilt-card" style="padding: 1.15rem; background: var(--bg-surface);">
+                <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">🛡️</div>
+                <h4 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.25rem;">Guaranteed Prices</h4>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5;">
+                  Prices listed are 100% guaranteed for Prepaid Customers paid by the 1st deadline.
+                </p>
+              </div>
+
+              <div class="comic-panel-box tilt-card" style="padding: 1.15rem; background: var(--bg-surface);">
+                <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">📅</div>
+                <h4 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.25rem;">1-Year Hold Policy</h4>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5;">
+                  We hold prepays for <strong>1 full calendar year</strong> so your books are safe even if you can't visit monthly.
+                </p>
+              </div>
+
+              <div class="comic-panel-box tilt-card" style="padding: 1.15rem; background: var(--bg-surface);">
+                <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">📬</div>
+                <h4 style="font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.25rem;">Weekly Arrival Emails</h4>
+                <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.5;">
+                  Receive automated weekly email dispatch notices letting you know exactly which items have arrived.
+                </p>
+              </div>
+            </div>
+
+            <!-- Previews & Online Order Forms Section -->
+            <div class="comic-panel-box tilt-card" style="padding: 1.5rem; margin-bottom: 2.25rem; border: 3px solid var(--comic-blue);">
+              <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #0284c7; color: #fff;">
+                <span>📋 ONLINE ORDER FORMS & MONTHLY PREVIEWS</span>
+              </div>
+              <div class="amber-highlight-box" style="margin-bottom: 1.25rem; font-size: 0.92rem;">
+                ⭐ <strong>Variant Notice:</strong> We have added the higher priced Incentive (Gated) Variants with their respective titles!
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;">
+                
+                <!-- Current Month: August 2026 (10% Discount) -->
+                <div style="background: var(--bg-surface-elevated); border: 2px solid var(--border-comic); border-radius: 8px; padding: 1.25rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h4 style="font-size: 1.1rem; color: var(--text-primary); font-weight: 800;">
+                      CURRENT MONTH (10% DISCOUNT)
+                    </h4>
+                    <span class="badge" style="background: var(--comic-red); color: #fff; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px;">
+                      DUE BY AUG 22ND
+                    </span>
+                  </div>
+                  <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+                    Books shipping in October 2026 and beyond.
+                  </p>
+                  
+                  <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+                    <a href="https://www.drnos.com/OrderPages/AUG26.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.85rem; text-align: left; padding: 0.45rem 0.75rem;">
+                      📄 August 2026 Online Order Form ↗
+                    </a>
+                    <a href="https://www.drnos.com/OrderPages/AUG26s.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      📑 August 2026 Supplemental Items ↗
+                    </a>
+                    <a href="https://www.drnos.com/OrderPages/Previews/AUG26.txt" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      📝 Dr. No's Text File (.txt) ↗
+                    </a>
+                    <a href="https://prhcomics.com/wp-content/uploads/2026/07/2026_August_PRH-Panels-Catalog-PDF.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      📕 PRH Panels Catalog (Marvel, IDW, Boom, Dark Horse) ↗
+                    </a>
+                    <a href="https://media.lunardistribution.com/files/lunarmedia/stamp07252026041228_NEXTPHASE56FINAL.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🌙 Lunar: Next Phase (DC, Image, Titan, Mad Cave) ↗
+                    </a>
+                    <a href="https://media.lunardistribution.com/files/dc_connect_75.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🦇 DC Connect #75 Catalog ↗
+                    </a>
+                    <a href="https://prhcomics.com/wp-content/uploads/2026/07/2026_August_PRH-Marvel-Catalog.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🦸 Marvel August Catalog ↗
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Previous Month: July 2026 (5% Discount) -->
+                <div style="background: var(--bg-surface-elevated); border: 2px solid var(--border-comic); border-radius: 8px; padding: 1.25rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                    <h4 style="font-size: 1.1rem; color: var(--text-primary); font-weight: 800;">
+                      PREVIOUS MONTH (5% DISCOUNT)
+                    </h4>
+                    <span class="badge" style="background: #475569; color: #fff; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px;">
+                      DUE BY AUG 15TH
+                    </span>
+                  </div>
+                  <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.85rem;">
+                    Books shipping in September 2026 and beyond.
+                  </p>
+                  
+                  <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.88rem;">
+                    <a href="https://www.drnos.com/OrderPages/JUL26.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.85rem; text-align: left; padding: 0.45rem 0.75rem; background: #475569; border-color: #0f172a;">
+                      📄 July 2026 Online Order Form ↗
+                    </a>
+                    <a href="https://www.drnos.com/OrderPages/Previews/JUL26.txt" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      📝 Dr. No's July Text File (.txt) ↗
+                    </a>
+                    <a href="https://prhcomics.com/wp-content/uploads/2026/06/2026_July_PRH-Panels-Catalog-PDF.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      📕 PRH July Panels Catalog ↗
+                    </a>
+                    <a href="https://media.lunardistribution.com/files/lunarmedia/stamp06182026013402_NEXTPHASE55.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🌙 Lunar: Next Phase #55 ↗
+                    </a>
+                    <a href="https://media.lunardistribution.com/files/dc_connect_74.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🦇 DC Connect #74 Catalog ↗
+                    </a>
+                    <a href="https://prhcomics.com/wp-content/uploads/2026/06/2026_July_PRH-Marvel-Catalog.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.82rem; text-align: left; padding: 0.4rem 0.75rem;">
+                      🦸 Marvel July Catalog ↗
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 1.25rem; text-align: center;">
+                <a href="https://www.drnos.com/archivepreviews.html" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: var(--comic-blue); font-weight: 700; text-decoration: underline;">
+                  📚 Click here for old order forms archive (Item availability cannot be guaranteed) ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- Discount Tiers & Payment Guidelines -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 2.25rem;">
+              <!-- Discount Guidelines -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: var(--comic-green); color: #fff;">
+                  <span>💰 TIMELY ORDER DISCOUNTS</span>
+                </div>
+                <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.92rem; color: var(--text-secondary);">
+                  <li style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                    <span>📌</span>
+                    <span><strong>15 Items Minimum:</strong> There must be at least 15 items ordered in a month to qualify for a discount.</span>
+                  </li>
+                  <li style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                    <span>💳</span>
+                    <span><strong>Prepayment Required:</strong> Orders must be paid in full to activate. Items will not be pulled unless paid beforehand!</span>
+                  </li>
+                  <li style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                    <span>⚡</span>
+                    <span><strong>10% Discount:</strong> Order must be paid in full by the <strong>22nd</strong> of that order month.</span>
+                  </li>
+                  <li style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                    <span>⏳</span>
+                    <span><strong>5% Discount:</strong> Order must be paid in full by the <strong>15th</strong> of the following month.</span>
+                  </li>
+                  <li style="display: flex; gap: 0.5rem; align-items: flex-start;">
+                    <span>📦</span>
+                    <span><strong>Weekend Processing:</strong> Orders placed on Saturday or Sunday are processed the following Monday.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Mail Order & Shipping Details -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #475569; color: #fff;">
+                  <span>✉️ MAIL ORDERS & PAYMENTS</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.85rem;">
+                  Dr. No's ships anywhere within the United States ($12.50 to $18 minimum shipping fee). Mail order payments accepted: <strong>Personal Check or Money Order</strong> (or PayPal by advance consultation).
+                </p>
+                <div style="background: var(--bg-surface-elevated); border: 1.5px solid var(--border-comic); border-radius: 6px; padding: 0.85rem; font-family: var(--font-mono); font-size: 0.82rem; margin-bottom: 0.85rem;">
+                  <strong>SEND PAYMENTS TO:</strong><br>
+                  Dr. No's Comics and Games<br>
+                  attn. Web Manager<br>
+                  3372 Canton Road Suite 104<br>
+                  Marietta, GA 30066
+                </div>
+                <div style="font-size: 0.82rem; color: var(--text-muted);">
+                  ⏱️ <em>Payments must be received by the 20th of the catalog month. Questions? Email <a href="mailto:manager@drnos.com" style="color: var(--comic-blue); font-weight: 700;">manager@drnos.com</a> or call (770) 422-4642.</em>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Digital Pull-List Manager -->
+            <div class="pulllist-container">
+              <!-- Left Column: Item List & Custom Title Adder -->
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                  <h3 class="font-display" style="font-size: 1.5rem; color: var(--text-primary);">YOUR DIGITAL PULL-BOX BUILDER</h3>
+                  <span style="font-size: 0.85rem; color: var(--text-muted);">Saved in Local Session</span>
+                </div>
+
+                <!-- List of items -->
+                <div id="pulllist-items-container" style="margin-bottom: 2rem;">
+                  <!-- Populated dynamically -->
+                </div>
+
+                <!-- Custom Series Adder Form -->
+                <div class="comic-panel-box" style="padding: 1.5rem;">
+                  <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem;">
+                    <span>➕ ADD ANY ONGOING SERIES OR VARIANT TO PULL BOX</span>
+                  </div>
+                  <form id="pull-custom-form" style="display: grid; grid-template-columns: 2fr 1.5fr auto; gap: 0.75rem;">
+                    <input type="text" id="pull-custom-title" class="search-input" placeholder="Series Title (e.g. Spider-Man, Saga, Batman...)" required />
+                    <input type="text" id="pull-custom-publisher" class="search-input" placeholder="Publisher / Variant Info" />
+                    <button type="submit" class="btn btn-primary">
+                      + ADD SERIES
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Right Column: Box Summary & Tiered Discounts -->
+              <div class="pulllist-box-summary" id="pulllist-summary-container">
+                <!-- Rendered dynamically -->
+              </div>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to New Arrivals">
+              <span class="page-curl-label">ARRIVALS ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to Store">
+              <span class="page-curl-label">STORE ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 6: STORE & GRAIL VAULT (onlinestore.html)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="store" data-page-title="Issue #6: Store & Grail Vault">
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                💎 ONLINE STORE & INVENTORY
+              </div>
+              <h2 class="comic-title-burst" style="font-size: 2.4rem; margin-bottom: 0.5rem;">
+                DR. NO'S STORE & BACK ISSUE SERVICES
+              </h2>
+              <p style="color: var(--text-secondary); max-width: 780px;">
+                Georgia's premier headquarters for over 100,000 back issues, the South's largest graphic novel collection, and gaming essentials. Order by phone, email, or visit our Marietta store!
+              </p>
+            </div>
+
+            <!-- Store Department Service Panels -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+              <!-- 1. 100,000+ Back Issues -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: var(--comic-red); color: #fff;">
+                  <span>📚 100,000+ BACK ISSUES</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Golden, Silver, Bronze & Modern Back Issues</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  Our physical store holds over 100,000 back issues curated across 47+ years. Looking for a specific key issue, run, or variant? Call or email us and our staff will pull and hold it for you!
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="tel:7704224642" class="btn btn-primary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    📞 (770) 422-4642
+                  </a>
+                  <a href="mailto:manager@drnos.com?subject=Back%20Issue%20Request" class="btn btn-outline-comic" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    ✉️ Request Back Issue
+                  </a>
+                </div>
+              </div>
+
+              <!-- 2. Largest TPB Library in the South -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #0284c7; color: #fff;">
+                  <span>⭐ LARGEST TPB LIBRARY</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Trade Paperbacks & Hardcovers</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  We boast the largest trade paperback and graphic novel collection in the South. Complete story arcs, omnibuses, manga, and independent graphic novels available on our shelves.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="mailto:manager@drnos.com?subject=TPB%20Special%20Order" class="btn btn-outline-comic" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    📦 Special Order TPB
+                  </a>
+                </div>
+              </div>
+
+              <!-- 3. Curbside Pickup & Mail Order -->
+              <div class="comic-panel-box tilt-card" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #10b981; color: #fff;">
+                  <span>🚚 CURBSIDE & MAIL DELIVERY</span>
+                </div>
+                <h4 style="font-size: 1.15rem; color: var(--text-primary); margin-bottom: 0.5rem;">Convenient Pickup & Shipping</h4>
+                <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
+                  Curbside pick-up is available during all store hours! We also ship directly to customers across the country with professional, secure comic packing and tracking.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a href="tel:7704224642" class="btn btn-primary" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+                    🚗 Order Curbside
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Back Issue Consignment & Buyback Banner -->
+            <div class="comic-panel-box tilt-card" style="padding: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
+              <div>
+                <span class="sound-burst red" style="font-size: 0.9rem; margin-bottom: 0.5rem;">WE BUY COMICS & COLLECTIONS</span>
+                <h3 style="font-family: var(--font-display); font-size: 1.8rem; color: var(--text-primary); margin-top: 0.4rem;">
+                  LOOKING TO SELL YOUR VINTAGE COLLECTION?
+                </h3>
+                <p style="color: var(--text-secondary); max-width: 600px; font-size: 0.95rem; margin-top: 0.3rem;">
+                  Dr. No's pays top dollar cash for Golden, Silver, Bronze, and Modern Key issues, graded slabs, and Magic/Pokémon collections.
+                </p>
+              </div>
+              <a href="tel:7704224642" class="btn btn-primary" style="font-size: 1rem;">
+                CALL OUR APPRAISERS 📞 (770) 422-4642
+              </a>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to Ordering">
+              <span class="page-curl-label">ORDERING ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to Directions">
+              <span class="page-curl-label">DIRECTIONS ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 7: DIRECTIONS & HOURS (directions.html)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="directions" data-page-title="Issue #7: Directions & Hours">
+            <div style="margin-bottom: 2rem;">
+              <div class="sound-burst red" style="margin-bottom: 0.5rem; font-size: 0.95rem;">
+                🏛️ SERVING COBB COUNTY SINCE 1977
+              </div>
+              <h2 class="comic-title-burst" style="font-size: 2.4rem; margin-bottom: 0.5rem;">
+                DIRECTIONS & STORE HOURS
+              </h2>
+              <p style="color: var(--text-secondary); max-width: 780px;">
+                Conveniently located in the Blackwell Square Shopping Center in Marietta, Georgia. Free parking and fully stocked gaming arenas.
+              </p>
+            </div>
+
+            <div class="directions-grid" style="margin-bottom: 2.5rem;">
+              
+              <!-- Store Hours Table -->
+              <div class="comic-panel-box" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem;">
+                  <span>🕒 STORE OPERATING HOURS</span>
+                </div>
+                <div class="hours-list" style="display: flex; flex-direction: column; gap: 0.45rem; font-size: 0.92rem;">
+                  <div class="hours-row" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding: 0.45rem 0; flex-wrap: wrap; gap: 0.3rem;">
+                    <span style="font-weight: 700; color: var(--text-primary);">Monday – Tuesday:</span>
+                    <span style="color: var(--text-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem;">11:00 AM – 8:00 PM</span>
+                  </div>
+                  <div class="hours-row hours-row-wednesday" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding: 0.45rem 0.5rem; border-radius: 4px; flex-wrap: wrap; gap: 0.3rem;">
+                    <span class="hours-wed-label" style="font-weight: 800;">Wednesday (New Comic Day!):</span>
+                    <span class="hours-wed-time" style="font-weight: 800; font-family: var(--font-mono); font-size: 0.85rem;">11:00 AM – 8:00 PM</span>
+                  </div>
+                  <div class="hours-row" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding: 0.45rem 0; flex-wrap: wrap; gap: 0.3rem;">
+                    <span style="font-weight: 700; color: var(--text-primary);">Thursday:</span>
+                    <span style="color: var(--text-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem;">11:00 AM – 8:00 PM</span>
+                  </div>
+                  <div class="hours-row hours-row-friday" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding: 0.45rem 0.5rem; border-radius: 4px; flex-wrap: wrap; gap: 0.3rem;">
+                    <span class="hours-fri-label" style="font-weight: 800;">Friday (FNM Magic Night):</span>
+                    <span class="hours-fri-time" style="font-weight: 800; font-family: var(--font-mono); font-size: 0.85rem;">11:00 AM – 8:00 PM</span>
+                  </div>
+                  <div class="hours-row" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding: 0.45rem 0; flex-wrap: wrap; gap: 0.3rem;">
+                    <span style="font-weight: 700; color: var(--text-primary);">Saturday:</span>
+                    <span style="color: var(--text-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem;">11:00 AM – 8:00 PM</span>
+                  </div>
+                  <div class="hours-row" style="display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; flex-wrap: wrap; gap: 0.3rem;">
+                    <span style="font-weight: 700; color: var(--text-primary);">Sunday:</span>
+                    <span style="color: var(--text-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.85rem;">12:00 PM – 6:00 PM</span>
+                  </div>
+                </div>
+                <div class="hours-notice">
+                  * Dr. No's is open 363 days a year. Closed Thanksgiving & Christmas!
+                </div>
+              </div>
+
+              <!-- Location & Contact -->
+              <div class="comic-panel-box" style="padding: 1.5rem;">
+                <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem;">
+                  <span>📞 CONTACT & DIRECTORY</span>
+                </div>
+                
+                <div style="margin-bottom: 1.25rem;">
+                  <h4 style="color: var(--text-primary); font-weight: 800; margin-bottom: 0.3rem;">Address:</h4>
+                  <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.5;">
+                    Dr. No's Comics & Games SuperStore<br>
+                    Blackwell Square Shopping Center<br>
+                    3372 Canton Road, Suite 104<br>
+                    Marietta, GA 30066
+                  </p>
+                </div>
+
+                <div style="margin-bottom: 1.25rem;">
+                  <h4 style="color: var(--text-primary); font-weight: 800; margin-bottom: 0.3rem;">Contact Info:</h4>
+                  <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--text-primary); line-height: 1.6;">
+                    📞 <strong><a href="tel:7704224642" style="color: inherit; text-decoration: underline;">(770) 422-4642</a></strong> (Main Line)<br>
+                    📱 <strong><a href="tel:6789033705" style="color: inherit; text-decoration: underline;">(678) 903-3705</a></strong> (Secondary Line)<br>
+                    ✉️ <strong><a href="mailto:manager@drnos.com" style="color: inherit; text-decoration: underline;">manager@drnos.com</a></strong>
+                  </p>
+                </div>
+
+                <div style="background: var(--bg-surface-elevated); border: 2px solid var(--border-comic); border-radius: 8px; padding: 0.85rem; margin-bottom: 1.25rem; word-break: break-word;">
+                  <h5 style="color: var(--text-primary); font-weight: 800; margin-bottom: 0.4rem;">OFFICIAL DRNOS.COM DIRECTORY:</h5>
+                  <div style="display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; font-size: 0.78rem; align-items: center;">
+                    <a href="https://www.drnos.com/aboutus.html" target="_blank" rel="noopener noreferrer" class="directory-link">aboutus.html</a>
+                    <span style="color: var(--text-muted);">•</span>
+                    <a href="https://www.drnos.com/onlinestore.html" target="_blank" rel="noopener noreferrer" class="directory-link">onlinestore.html</a>
+                    <span style="color: var(--text-muted);">•</span>
+                    <a href="https://www.drnos.com/ordering.html" target="_blank" rel="noopener noreferrer" class="directory-link">ordering.html</a>
+                    <span style="color: var(--text-muted);">•</span>
+                    <a href="https://www.drnos.com/events.html" target="_blank" rel="noopener noreferrer" class="directory-link">events.html</a>
+                    <span style="color: var(--text-muted);">•</span>
+                    <a href="https://www.drnos.com/directions.html" target="_blank" rel="noopener noreferrer" class="directory-link">directions.html</a>
+                  </div>
+                </div>
+
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                  <a href="https://maps.google.com/?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="flex: 1; min-width: 140px;">
+                    🗺️ GOOGLE MAPS
+                  </a>
+                  <a href="mailto:manager@drnos.com" class="btn btn-danger" style="flex: 1; min-width: 140px;">
+                    ✉️ EMAIL STORE
+                  </a>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Interactive Live Map View -->
+            <div class="comic-panel-box tilt-card" style="margin-bottom: 2.5rem; padding: 1.5rem;">
+              <div class="comic-panel-header" style="margin: -1.5rem -1.5rem 1.25rem -1.5rem; background: #b45309; color: #ffffff;">
+                <span>📍 LIVE LOCATION MAP & DRIVING DIRECTIONS</span>
+                <span style="font-size: 0.8rem; font-family: var(--font-mono); color: var(--comic-yellow);">BLACKWELL SQUARE SHOPPING CENTER</span>
+              </div>
+              
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+                <div>
+                  <h4 style="color: var(--text-primary); font-size: 1.15rem; margin-bottom: 0.2rem;">3372 Canton Road, Suite 104, Marietta, GA 30066</h4>
+                  <p style="color: var(--text-secondary); font-size: 0.88rem;">
+                    Located near the intersection of Canton Rd & Piedmont Rd in Blackwell Square. Free parking directly in front of the superstore!
+                  </p>
+                </div>
+                <a href="https://maps.google.com/?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="font-size: 0.85rem; padding: 0.45rem 0.9rem;">
+                  🚗 GET TURN-BY-TURN DIRECTIONS ↗
+                </a>
+              </div>
+
+              <!-- Embedded Interactive Google Map Frame -->
+              <div class="map-embed-wrapper" style="position: relative; width: 100%; height: 380px; border: 3px solid #0f172a; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-comic); background: #e2e8f0;">
+                <iframe 
+                  title="Dr. No's Comics & Games SuperStore Map Location"
+                  src="https://maps.google.com/maps?q=3372+Canton+Rd+Suite+104+Marietta+GA+30066&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style="border:0;" 
+                  allowfullscreen="" 
+                  loading="lazy" 
+                  referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+              </div>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to Store">
+              <span class="page-curl-label">STORE ⬅</span>
+            </div>
+            <div class="page-curl page-curl-right" title="Flip to Blog">
+              <span class="page-curl-label">BLOG ➔</span>
+            </div>
+          </article>
+
+          <!-- =================================================================
+               PAGE 8: THE DOCTOR KNOWS BLOG (drnoscomicsandgames.blogspot.com)
+               ================================================================= -->
+          <article class="comic-page" data-page-id="blog" data-page-title="Issue #8: The Doctor Knows Blog">
+            <div style="margin-bottom: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                  <div class="sound-burst" style="margin-bottom: 0.35rem; font-size: 0.9rem;">
+                    📰 OFFICIAL DR. NO'S BLOGGER FEED
+                  </div>
+                  <h2 class="comic-title-burst" style="font-size: 2.2rem; margin-bottom: 0.35rem;">
+                    THE DOCTOR KNOWS: BLOG & DISPATCHES
+                  </h2>
+                  <p style="color: var(--text-secondary); max-width: 780px; font-size: 0.95rem; line-height: 1.45;">
+                    Weekly employee picks, tournament recaps, top seller charts, and comic announcements pulled directly from Dr. No's official blog.
+                  </p>
+                </div>
+
+                <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
+                  <button class="btn btn-primary btn-open-blog-archive" style="font-size: 0.85rem; padding: 0.45rem 0.9rem;">
+                    📚 BLOG ARCHIVE VAULT
+                  </button>
+                  <button id="btn-refresh-blog" class="btn btn-outline-comic" style="font-size: 0.85rem; padding: 0.45rem 0.9rem;">
+                    <span>🔄</span> RELOAD BLOG
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Blog Search & Category Toolbar -->
+            <div class="filter-search-bar">
+              <div class="search-input-wrap">
+                <span class="search-icon-pos">🔍</span>
+                <input type="text" id="blog-search-input" class="search-input" placeholder="Search blog articles by title, author, or keyword..." />
+              </div>
+
+              <div class="filter-chip-group" id="blog-category-chips">
+                <!-- Populated dynamically by blogUI.js -->
+              </div>
+            </div>
+
+            <!-- Dynamic Grid of Blog Articles -->
+            <div class="blog-grid-container" id="blog-posts-page-grid">
+              <!-- Populated dynamically by blogUI.js -->
+            </div>
+
+            <!-- Blog Bottom Load More & Historical Archive Actions -->
+            <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; padding: 1.5rem; background: var(--bg-surface); border: 2px dashed var(--border-comic); border-radius: 10px;">
+              <button class="btn btn-primary btn-load-more-blog" style="font-size: 0.95rem; padding: 0.6rem 1.4rem;">
+                📥 Load More Dispatches from Blogger
+              </button>
+              <button class="btn btn-secondary btn-open-blog-archive" style="font-size: 0.95rem; padding: 0.6rem 1.4rem;">
+                📚 Open Chronological Archive Vault
+              </button>
+              <a href="https://drnoscomicsandgames.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.95rem; padding: 0.6rem 1.4rem;">
+                🏛️ Complete 18-Year Blogger Archive (2,400+ Posts) ↗
+              </a>
+            </div>
+
+            <!-- Corner Curls -->
+            <div class="page-curl page-curl-left" title="Flip to Directions">
+              <span class="page-curl-label">DIRECTIONS ⬅</span>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Comic Book Bottom Floating Navigation Bar -->
+        <footer class="comic-page-nav-bar" aria-label="Page Flip Controls">
+          <button id="btn-prev-page" class="nav-arrow-btn" title="Previous Page (Left Arrow Key)">
+            ❮
+          </button>
+          <span class="page-indicator-pill" id="page-indicator-text">
+            PAGE 1 / 7 • HOME
+          </span>
+          <button id="btn-next-page" class="nav-arrow-btn" title="Next Page (Right Arrow Key)">
+            ❯
+          </button>
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       GLOBAL SITE FOOTER: DR. NO'S COMICS & GAMES SUPERSTORE
+       ================================================================= -->
+  <footer class="site-global-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <!-- Column 1: Brand & Legacy -->
+      <div class="footer-brand-col">
+        <div class="footer-logo-wrap">
+          <img src="/assets/logo_drnos.png" alt="Dr. No's Comics & Games SuperStore" class="footer-logo-img" />
+          <span class="spine-badge" style="font-size: 0.8rem;">EST. 1977</span>
+        </div>
+        <p style="font-size: 0.88rem; color: #475569; line-height: 1.6; max-width: 320px;">
+          Georgia's premier comic book, vintage grail, and gaming superstore for nearly 50 years. Over 100,000 back issues, weekly Wednesday new releases, and live tournament play in Marietta, GA.
+        </p>
+        <div class="amber-highlight-text" style="font-size: 0.82rem; font-weight: 700;">
+          ⭐ Cobb County's Oldest & Largest Comic SuperStore
+        </div>
+      </div>
+
+      <!-- Column 2: Department Navigation -->
+      <div>
+        <h4 class="footer-col-title">📖 DEPARTMENTS</h4>
+        <ul class="footer-links-list">
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'0\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">🏠 Issue #1: Home Cover</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'1\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">📖 Issue #2: About Us (1977)</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'2\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">🎲 Issue #3: Events & Tournaments</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'3\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">⚡ Issue #4: New Arrivals</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'4\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">📦 Issue #5: Ordering & Pull Box</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'5\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">💎 Issue #6: The Grail Vault</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'6\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">📍 Issue #7: Directions & Hours</a></li>
+          <li><a class="footer-link-item" onclick="document.querySelector('.tab-bookmark[data-target=\'7\']').click(); window.scrollTo({top: 0, behavior: 'smooth'});">📰 Issue #8: The Doctor Knows Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Location, Hours & Contact -->
+      <div>
+        <h4 class="footer-col-title">📍 STORE & HOURS</h4>
+        <div class="footer-info-block">
+          <strong style="color: var(--text-primary);">Dr. No's Comics & Games</strong><br>
+          Blackwell Square Shopping Center<br>
+          3372 Canton Road, Suite 104<br>
+          Marietta, GA 30066
+        </div>
+        <div class="footer-contact-row">
+          📞 <strong>(770) 422-4642</strong><br>
+          ✉️ <a href="mailto:manager@drnos.com" style="color: #0284c7; font-weight: 700;">manager@drnos.com</a>
+        </div>
+        <div class="footer-hours-pill">
+          "Dr. No's is open 363 days a year. Closed Thanksgiving & Christmas!"
+        </div>
+      </div>
+
+      <!-- Column 4: Community, Socials & Official Links -->
+      <div>
+        <h4 class="footer-col-title">🌐 SOCIAL & OFFICIAL</h4>
+        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 0.75rem;">
+          Stay connected with daily drops, tournament standings, and community announcements:
+        </p>
+        <div style="display: flex; flex-direction: column; gap: 0.45rem;">
+          <a href="http://www.facebook.com/pages/Dr-Nos-Comics-Games-Superstore/114205048645706" target="_blank" rel="noopener noreferrer" class="btn btn-facebook" style="font-size: 0.78rem; padding: 0.35rem 0.6rem;">
+            📘 Official Facebook Page
+          </a>
+          <a href="https://www.instagram.com/drnoscomics" target="_blank" rel="noopener noreferrer" class="btn btn-instagram" style="font-size: 0.78rem; padding: 0.35rem 0.6rem;">
+            📸 Instagram (@drnoscomics)
+          </a>
+          <a href="https://x.com/drnoscomics?s=20" target="_blank" rel="noopener noreferrer" class="btn btn-twitter" style="font-size: 0.78rem; padding: 0.35rem 0.6rem;">
+            ✖️ Twitter / X (@drnoscomics)
+          </a>
+          <div style="display: flex; gap: 0.4rem;">
+            <a href="https://discord.gg/HdwQxcZ" target="_blank" rel="noopener noreferrer" class="btn btn-discord btn-discord-games" style="flex: 1; font-size: 0.75rem; padding: 0.35rem 0.4rem;">
+              🎮 Gaming Discord
+            </a>
+            <a href="https://discord.gg/QG5Rqfm" target="_blank" rel="noopener noreferrer" class="btn btn-discord btn-discord-comics" style="flex: 1; font-size: 0.75rem; padding: 0.35rem 0.4rem;">
+              💬 Comics Discord
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Copyright & Directory Bar -->
+    <div class="footer-bottom-bar">
+      <div>
+        © 1977–2027 <strong>Dr. No's Comics & Games SuperStore</strong>. All rights reserved. •
+        <span style="font-family: var(--font-mono); font-size: 0.75rem;">
+          <a href="https://www.drnos.com/aboutus.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">aboutus</a> |
+          <a href="https://www.drnos.com/events.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">events</a> |
+          <a href="https://www.drnos.com/ordering.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">ordering</a> |
+          <a href="https://www.drnos.com/onlinestore.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">onlinestore</a> |
+          <a href="https://www.drnos.com/directions.html" target="_blank" rel="noopener noreferrer" style="color: inherit;">directions</a>
+        </span>
+      </div>
+      <button class="btn footer-btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" style="font-size: 0.82rem; padding: 0.4rem 0.8rem;">
+        ▲ TOP OF COMIC
+      </button>
+    </div>
+  </footer>
+
+
+  <!-- =================================================================
+       GENERIC MODAL (FOR SLAB INSPECTION, PULL CODES, INQUIRIES)
+       ================================================================= -->
+  <div id="generic-modal-backdrop" class="comic-modal-backdrop" aria-hidden="true">
+    <div class="comic-modal-box">
+      <div class="comic-modal-header">
+        <h3 id="generic-modal-title" style="font-family: var(--font-display); font-size: 1.4rem;">MODAL TITLE</h3>
+        <button id="generic-modal-close" class="modal-close-btn">✕</button>
+      </div>
+      <div id="generic-modal-body" style="padding: 1.5rem;">
+        <!-- Modal content injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       NATIVE BLOG ARTICLE READER MODAL (CUSTOM ARTICLE VIEW)
+       ================================================================= -->
+  <div id="blog-reader-modal" class="blog-reader-modal" aria-hidden="true">
+    <div class="blog-reader-container">
+      <!-- Toolbar Header -->
+      <div class="blog-reader-toolbar">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span class="reader-badge" style="background: var(--comic-red); color: #fff;">ARTICLE DISPATCH</span>
+          <span style="font-family: var(--font-display); font-size: 1.15rem; color: var(--comic-yellow);">THE DOCTOR KNOWS</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.6rem;">
+          <button id="blog-reader-prev" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;" title="Previous Article">
+            ❮ PREV
+          </button>
+          <button id="blog-reader-next" class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;" title="Next Article">
+            NEXT ❯
+          </button>
+          <button id="blog-reader-share" class="btn btn-outline-comic" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;" title="Copy Article Link">
+            🔗 SHARE
+          </button>
+          <button id="blog-reader-close" class="modal-close-btn" title="Close Article (Esc)">✕</button>
+        </div>
+      </div>
+
+      <!-- Scrollable Article Content -->
+      <div class="blog-reader-scrollable">
+        <div id="blog-reader-article-wrap">
+          <!-- Article injected dynamically by blogUI.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =================================================================
+       NATIVE BLOG ARCHIVE TIMELINE MODAL (YEAR & MONTH VAULT)
+       ================================================================= -->
+  <div id="blog-archive-modal" class="blog-reader-modal" aria-hidden="true">
+    <div class="blog-reader-container" style="max-width: 860px;">
+      <div class="blog-reader-toolbar" style="background: #1e1b4b; border-bottom-color: var(--comic-yellow);">
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span class="reader-badge" style="background: #4f46e5; color: #fff;">ARCHIVE VAULT</span>
+          <span style="font-family: var(--font-display); font-size: 1.15rem; color: var(--comic-yellow);">HISTORICAL DISPATCHES</span>
+        </div>
+        <button id="blog-archive-close" class="modal-close-btn" title="Close Archive (Esc)">✕</button>
+      </div>
+
+      <div class="blog-reader-scrollable">
+        <div id="blog-archive-timeline-content">
+          <!-- Archive timeline injected dynamically by blogUI.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="comic-toast-container" class="comic-toast-container"></div>
+
+  <!-- Main JavaScript Entry -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
