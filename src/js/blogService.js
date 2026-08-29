@@ -135,7 +135,7 @@ export class BlogService {
    * Upgrade any Blogger image URL to full crystal-clear resolution
    */
   upgradeBloggerImageUrl(url) {
-    if (!url) return '/assets/hero_banner.jpg';
+    if (!url) return './assets/hero_banner.jpg';
     let upgraded = url;
     // Replace /s72-c/, /s72-w64-h64-c/, /w72-h72-p-k-no-nu/, /s320/, /s640/ etc. with /s1600/
     upgraded = upgraded.replace(/\/(s|w|h)\d+[^/]*\//g, '/s1600/');
@@ -171,7 +171,7 @@ export class BlogService {
     }
 
     // Default comic artwork banner if no image in post
-    return '/assets/hero_banner.jpg';
+    return './assets/hero_banner.jpg';
   }
 
   /**

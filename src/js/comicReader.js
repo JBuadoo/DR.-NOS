@@ -99,7 +99,7 @@ export class ComicReader {
         </p>
         
         <div style="flex: 1; border: 3px solid #0f172a; border-radius: 6px; overflow: hidden; position: relative; background: #0f172a; min-height: 240px; box-shadow: var(--shadow-comic);">
-          <img src="/assets/hero_banner.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Comic Scene Artwork" />
+          <img src="./assets/hero_banner.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Comic Scene Artwork" />
           <div class="sound-burst" style="position: absolute; bottom: 15px; left: 15px; font-size: 1.2rem; transform: rotate(-8deg);">
             CRACKLE!
           </div>
