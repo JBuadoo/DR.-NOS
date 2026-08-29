@@ -8,8 +8,16 @@
   
   <!-- Google Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Importmap for bare module resolution when served statically -->
+  <script type="importmap">
+  {
+    "imports": {
+      "canvas-confetti": "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/+esm"
+    }
+  }
+  </script>
 
   <!-- Core Comic Book Stylesheets -->
   <link rel="stylesheet" href="./src/styles/base.css" />

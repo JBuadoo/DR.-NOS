@@ -8,11 +8,20 @@
   
   <!-- Google Fonts Preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&family=Outfit:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Importmap for bare module resolution when served statically -->
+
 
   <!-- Core Comic Book Stylesheets -->
-  <script type="module" crossorigin src="./assets/index-KgoYrxDl.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "canvas-confetti": "https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/+esm"
+    }
+  }
+  </script>
+  <script type="module" crossorigin src="./assets/index-BBe3jIcx.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-DWqm2cij.css">
 </head>
 <body>
@@ -49,9 +58,9 @@
       <div class="fcbd-card tilt-card" title="Dr. No's Spotlight & Free Comic Book Day">
         <!-- Fading Slideshow (No arrows, smooth auto-fade transition) -->
         <div class="side-fading-slideshow" id="side-spotlight-slideshow">
-          <img src="./assets/fcbd_event.png" alt="Free Comic Book Day - First Saturday of May" class="slideshow-slide active" />
-          <img src="./assets/new_comic_day_wednesday.jpg" alt="Join us at Dr. No's - New Comic Book Day Every Wednesday" class="slideshow-slide" />
-          <img src="./assets/nextdoor_fave.png" alt="2023 Neighborhood FAVE Nextdoor Winner" class="slideshow-slide" />
+          <img src="./assets/fcbd_event-CQ_byjXb.png" alt="Free Comic Book Day - First Saturday of May" class="slideshow-slide active" />
+          <img src="./assets/new_comic_day_wednesday-CT48Y6Tx.jpg" alt="Join us at Dr. No's - New Comic Book Day Every Wednesday" class="slideshow-slide" />
+          <img src="./assets/nextdoor_fave-BpADZZdE.png" alt="2023 Neighborhood FAVE Nextdoor Winner" class="slideshow-slide" />
         </div>
         <div style="padding: 0.75rem; background: #0f172a; color: #fff; text-align: center;">
           <span style="font-family: var(--font-display); font-size: 1rem; color: var(--comic-yellow); display: block; margin-bottom: 0.35rem;">FREE COMIC BOOK DAY</span>
@@ -140,7 +149,7 @@
             <!-- Pokemon -->
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 0.35rem;">
               <div>
-                <img src="./assets/logo_pokemon.png" alt="Pokémon" style="height: 22px; object-fit: contain; display: block;" />
+                <img src="./assets/logo_pokemon-1yB-nbTP.png" alt="Pokémon" style="height: 22px; object-fit: contain; display: block;" />
                 <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">Pokémon League</span>
               </div>
               <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">4:00pm - 6:00pm</span>
@@ -155,7 +164,7 @@
             <!-- Magic -->
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed var(--border-subtle); padding-bottom: 0.35rem;">
               <div>
-                <img src="./assets/logo_mtg.png" alt="Magic: The Gathering" style="height: 20px; object-fit: contain; display: block;" />
+                <img src="./assets/logo_mtg-CKZuWJ1G.png" alt="Magic: The Gathering" style="height: 20px; object-fit: contain; display: block;" />
                 <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">MTG Booster Draft</span>
               </div>
               <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">6:00pm</span>
@@ -164,7 +173,7 @@
             <!-- Yu-Gi-Oh -->
             <div style="display: flex; align-items: center; justify-content: space-between;">
               <div>
-                <img src="./assets/logo_yugioh.png" alt="Yu-Gi-Oh!" style="height: 18px; object-fit: contain; display: block;" />
+                <img src="./assets/logo_yugioh-CKcDsm4i.png" alt="Yu-Gi-Oh!" style="height: 18px; object-fit: contain; display: block;" />
                 <span style="font-size: 0.78rem; font-weight: 800; color: var(--text-primary);">Yu-Gi-Oh! Tournament</span>
               </div>
               <span style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; color: var(--text-secondary);">7:00pm</span>
@@ -221,7 +230,7 @@
           <div class="spine-nav-top-row">
             <div class="spine-brand-wrap">
               <a href="#home" class="spine-brand">
-                <img src="./assets/logo_drnos.png" alt="Dr. No's Comics & Games" style="height: 38px; width: auto; max-width: 140px; object-fit: contain; filter: drop-shadow(2px 2px 0 rgba(15, 23, 42, 0.35));" />
+                <img src="./assets/logo_drnos-gu_RJcrU.png" alt="Dr. No's Comics & Games" style="height: 38px; width: auto; max-width: 140px; object-fit: contain; filter: drop-shadow(2px 2px 0 rgba(15, 23, 42, 0.35));" />
                 <span class="spine-badge">EST. 1977</span>
               </a>
             </div>
@@ -368,7 +377,7 @@
             
             <!-- Parallax Hero Stage (Positioned directly at the top) -->
             <section class="hero-parallax-stage" style="margin-bottom: 2rem;">
-              <div class="hero-bg-art" style="background-image: url('./assets/storefront.png');"></div>
+              <div class="hero-bg-art" style="background-image: url('./assets/storefront-DC_B-xWx.png');"></div>
               <div class="hero-overlay-gradient"></div>
               
               <div class="hero-content-layer">
@@ -440,7 +449,7 @@
             <!-- Storefront Photo Feature -->
             <div class="comic-panel-box tilt-card" style="margin-bottom: 2.25rem; border-radius: 12px; overflow: hidden;">
               <div style="position: relative; max-height: 380px; overflow: hidden; background: #0f172a;">
-                <img src="./assets/storefront.png" alt="Dr. No's Comics and Games SuperStore Storefront in Blackwell Square" style="width: 100%; height: 100%; max-height: 380px; object-fit: cover; object-position: center 35%; display: block;" />
+                <img src="./assets/storefront-DC_B-xWx.png" alt="Dr. No's Comics and Games SuperStore Storefront in Blackwell Square" style="width: 100%; height: 100%; max-height: 380px; object-fit: cover; object-position: center 35%; display: block;" />
                 <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem;">
                   <div>
                     <span class="badge" style="background: var(--comic-red); color: #fff; font-family: var(--font-display); font-size: 0.85rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1.5px solid #0f172a; margin-bottom: 0.35rem; display: inline-block;">
@@ -503,7 +512,7 @@
                 <!-- 1. Cliff -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/CliffPic.jpg" alt="Cliff - Owner of Dr. No's Comics and Games" class="staff-avatar-img" />
+                    <img src="./assets/CliffPic-D8IW1xKw.jpg" alt="Cliff - Owner of Dr. No's Comics and Games" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">CLIFF</h4>
@@ -522,7 +531,7 @@
                 <!-- 2. Buck -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/Buck.jfif" alt="Buck - Store Manager & Games Manager" class="staff-avatar-img" />
+                    <img src="./assets/Buck-r1iO0BQP.jfif" alt="Buck - Store Manager & Games Manager" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">BUCK</h4>
@@ -541,7 +550,7 @@
                 <!-- 3. Izzy -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/IMG_3979.gif" alt="Izzy - Comics Manager" class="staff-avatar-img" />
+                    <img src="./assets/IMG_3979-CIBrijJQ.gif" alt="Izzy - Comics Manager" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">IZZY</h4>
@@ -555,7 +564,7 @@
                 <!-- 4. Tom -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/IMG_4388.gif" alt="Tom - Weekend Manager" class="staff-avatar-img" />
+                    <img src="./assets/IMG_4388-CL2DW2_U.gif" alt="Tom - Weekend Manager" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">TOM</h4>
@@ -569,7 +578,7 @@
                 <!-- 5. Jair -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/Jair.jfif" alt="Jair - GSU Graduate & Comic Reviewer" class="staff-avatar-img" />
+                    <img src="./assets/Jair-fWFnMBYy.jfif" alt="Jair - GSU Graduate & Comic Reviewer" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">JAIR</h4>
@@ -583,7 +592,7 @@
                 <!-- 6. Shelley -->
                 <div class="staff-card tilt-card">
                   <div class="staff-avatar-wrap">
-                    <img src="./assets/Shelley.jpg" alt="Shelley - Former Comic Shop Owner & Specialist" class="staff-avatar-img" />
+                    <img src="./assets/Shelley-g1_ifFTh.jpg" alt="Shelley - Former Comic Shop Owner & Specialist" class="staff-avatar-img" />
                   </div>
                   <div class="staff-card-body">
                     <h4 class="staff-name">SHELLEY</h4>
@@ -777,7 +786,7 @@
             <!-- New Comic Day Feature Banner -->
             <div class="comic-panel-box tilt-card" style="margin-bottom: 2.25rem; border-radius: 12px; overflow: hidden;">
               <div style="position: relative; max-height: 320px; overflow: hidden; background: #0f172a;">
-                <img src="./assets/new_comic_day_wednesday.jpg" alt="New Comic Day Every Wednesday at Dr. No's" style="width: 100%; height: 100%; max-height: 320px; object-fit: cover; object-position: center; display: block;" />
+                <img src="./assets/new_comic_day_wednesday-CT48Y6Tx.jpg" alt="New Comic Day Every Wednesday at Dr. No's" style="width: 100%; height: 100%; max-height: 320px; object-fit: cover; object-position: center; display: block;" />
                 <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.6) 60%, transparent 100%); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 0.75rem;">
                   <div>
                     <span class="badge" style="background: var(--comic-red); color: #fff; font-family: var(--font-display); font-size: 0.85rem; padding: 0.2rem 0.6rem; border-radius: 4px; border: 1.5px solid #0f172a; margin-bottom: 0.35rem; display: inline-block;">
@@ -1427,7 +1436,7 @@
       <!-- Column 1: Brand & Legacy -->
       <div class="footer-brand-col">
         <div class="footer-logo-wrap">
-          <img src="./assets/logo_drnos.png" alt="Dr. No's Comics & Games SuperStore" class="footer-logo-img" />
+          <img src="./assets/logo_drnos-gu_RJcrU.png" alt="Dr. No's Comics & Games SuperStore" class="footer-logo-img" />
           <span class="spine-badge" style="font-size: 0.8rem;">EST. 1977</span>
         </div>
         <p style="font-size: 0.88rem; color: #475569; line-height: 1.6; max-width: 320px;">

@@ -68,12 +68,18 @@ export class PullListManager {
     this.updatePullBadge();
 
     // Trigger mini celebratory confetti
-    confetti({
-      particleCount: 35,
-      spread: 60,
-      origin: { y: 0.8 },
-      colors: ['#facc15', '#ef4444', '#0284c7']
-    });
+    try {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 35,
+          spread: 60,
+          origin: { y: 0.8 },
+          colors: ['#facc15', '#ef4444', '#0284c7']
+        });
+      }
+    } catch (e) {
+      console.warn('Confetti effect skipped', e);
+    }
   }
 
   removeItem(index) {
