@@ -3,7 +3,20 @@
  * Handles local storage state, dynamic tiered discounts, custom title entries, and reservation export.
  */
 
-import confetti from 'canvas-confetti';
+// Optional confetti helper using CDN or window global
+const triggerConfetti = async (opts) => {
+  try {
+    if (typeof window !== 'undefined' && typeof window.confetti === 'function') {
+      window.confetti(opts);
+    } else {
+      const mod = await import('https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/+esm');
+      const fire = mod.default || mod;
+      if (typeof fire === 'function') fire(opts);
+    }
+  } catch (e) {
+    // Non-blocking fallback
+  }
+};
 
 export class PullListManager {
   constructor() {
@@ -68,18 +81,12 @@ export class PullListManager {
     this.updatePullBadge();
 
     // Trigger mini celebratory confetti
-    try {
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 35,
-          spread: 60,
-          origin: { y: 0.8 },
-          colors: ['#facc15', '#ef4444', '#0284c7']
-        });
-      }
-    } catch (e) {
-      console.warn('Confetti effect skipped', e);
-    }
+    triggerConfetti({
+      particleCount: 35,
+      spread: 60,
+      origin: { y: 0.8 },
+      colors: ['#facc15', '#ef4444', '#0284c7']
+    });
   }
 
   removeItem(index) {

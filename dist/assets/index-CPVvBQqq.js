@@ -1,0 +1,366 @@
+(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var e=class{constructor(){this.mouse={x:0,y:0,targetX:0,targetY:0},this.scrollY=0,this.init()}init(){this.starsLayer=document.querySelector(`.parallax-layer-stars`),this.skylineLayer=document.querySelector(`.parallax-layer-skyline`),this.floatingBursts=document.querySelectorAll(`.floating-comic-burst`),this.heroBgArt=document.querySelector(`.hero-bg-art`),this.heroContent=document.querySelector(`.hero-content-layer`),window.addEventListener(`mousemove`,e=>this.onMouseMove(e),{passive:!0}),window.addEventListener(`scroll`,()=>this.onScroll(),{passive:!0}),this.setupTiltCards(),this.render=this.render.bind(this),requestAnimationFrame(this.render)}onMouseMove(e){let t=window.innerWidth/2,n=window.innerHeight/2;this.mouse.targetX=(e.clientX-t)/t,this.mouse.targetY=(e.clientY-n)/n}onScroll(){this.scrollY=window.scrollY||window.pageYOffset}setupTiltCards(){document.querySelectorAll(`.tilt-card, .slab-card, .comic-release-card, .tournament-card, .staff-card`).forEach(e=>{if(e.dataset.tiltInitialized===`true`)return;if(e.dataset.tiltInitialized=`true`,!e.querySelector(`.tilt-card-glare`)){let t=document.createElement(`div`);t.className=`tilt-card-glare`,e.appendChild(t)}let t=null;e.addEventListener(`mouseenter`,()=>{t=e.getBoundingClientRect(),e.style.transition=`transform 0.08s ease-out, box-shadow 0.2s ease`}),e.addEventListener(`mousemove`,n=>{t||=e.getBoundingClientRect();let r=Math.max(0,Math.min(t.width,n.clientX-t.left)),i=Math.max(0,Math.min(t.height,n.clientY-t.top)),a=t.width/2,o=t.height/2,s=(i-o)/o*-6,c=(r-a)/a*6;e.style.transform=`perspective(1000px) rotateX(${s.toFixed(2)}deg) rotateY(${c.toFixed(2)}deg) translateY(-4px)`;let l=e.querySelector(`.tilt-card-glare`);if(l){let e=r/t.width*100,n=i/t.height*100;l.style.background=`radial-gradient(circle at ${e}% ${n}%, rgba(255,255,255,0.25) 0%, transparent 60%)`,l.style.opacity=`1`}}),e.addEventListener(`mouseleave`,()=>{t=null,e.style.transition=`transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease`,e.style.transform=`perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;let n=e.querySelector(`.tilt-card-glare`);n&&(n.style.opacity=`0`)})})}render(){this.mouse.x+=(this.mouse.targetX-this.mouse.x)*.08,this.mouse.y+=(this.mouse.targetY-this.mouse.y)*.08;let e=this.mouse.x,t=this.mouse.y;if(this.starsLayer){let n=e*-20,r=t*-16;this.starsLayer.style.transform=`translate3d(${n.toFixed(2)}px, ${r.toFixed(2)}px, 0)`}if(this.skylineLayer){let n=e*14,r=t*8;this.skylineLayer.style.transform=`translate3d(${n.toFixed(2)}px, ${r.toFixed(2)}px, 0)`}if(this.floatingBursts&&this.floatingBursts.length>0&&this.floatingBursts.forEach((n,r)=>{let i=12+r*6,a=e*i,o=t*i+Math.sin(Date.now()*.002+r)*6;n.style.transform=`translate3d(${a.toFixed(2)}px, ${o.toFixed(2)}px, 0)`}),this.heroBgArt){let n=e*-24,r=t*-20;this.heroBgArt.style.transform=`scale(1.12) translate3d(${n.toFixed(2)}px, ${r.toFixed(2)}px, 0)`}if(this.heroContent){let n=e*12,r=t*10;this.heroContent.style.transform=`translate3d(${n.toFixed(2)}px, ${r.toFixed(2)}px, 0)`}requestAnimationFrame(this.render)}},t=class{constructor(e){this.parallaxEngine=e,this.pages=[],this.tabs=[],this.currentIndex=0,this.isFlipping=!1,this.flipDuration=800,this.container=document.querySelector(`.comic-book-container`),this.comicBook=document.querySelector(`.comic-book`),this.init()}init(){if(this.pages=Array.from(document.querySelectorAll(`.comic-page`)),this.tabs=Array.from(document.querySelectorAll(`.tab-bookmark`)),this.prevBtn=document.getElementById(`btn-prev-page`),this.nextBtn=document.getElementById(`btn-next-page`),this.pageIndicator=document.getElementById(`page-indicator-text`),this.pages.length===0)return;let e=window.location.hash.replace(`#`,``),t=e.startsWith(`blog/`)?`blog`:e,n=this.pages.findIndex(e=>e.dataset.pageId===t);n===-1&&(n=0),this.showPageInstant(n),this.tabs.forEach((e,t)=>{e.addEventListener(`click`,()=>{t!==this.currentIndex&&this.goToPage(t)})}),this.prevBtn&&this.prevBtn.addEventListener(`click`,()=>this.previousPage()),this.nextBtn&&this.nextBtn.addEventListener(`click`,()=>this.nextPage()),document.querySelectorAll(`.page-curl-right`).forEach(e=>{e.addEventListener(`click`,e=>{e.stopPropagation(),this.nextPage()})}),document.querySelectorAll(`.page-curl-left`).forEach(e=>{e.addEventListener(`click`,e=>{e.stopPropagation(),this.previousPage()})}),window.addEventListener(`keydown`,e=>{[`INPUT`,`TEXTAREA`].includes(document.activeElement.tagName)||(e.key===`ArrowRight`||e.key===`PageDown`?this.nextPage():(e.key===`ArrowLeft`||e.key===`PageUp`)&&this.previousPage())});let r=0,i=0,a=document.querySelector(`.comic-pages-viewport`)||document.body;a.addEventListener(`touchstart`,e=>{r=e.changedTouches[0].screenX,i=e.changedTouches[0].screenY},{passive:!0}),a.addEventListener(`touchend`,e=>{let t=e.changedTouches[0].screenX,n=e.changedTouches[0].screenY,a=t-r,o=n-i;Math.abs(a)>45&&Math.abs(a)>Math.abs(o)*1.2&&(a<0?this.nextPage():this.previousPage())},{passive:!0}),window.addEventListener(`popstate`,()=>{let e=window.location.hash.replace(`#`,``),t=this.pages.findIndex(t=>t.dataset.pageId===e);t!==-1&&t!==this.currentIndex&&this.goToPage(t,!1)});let o=document.getElementById(`mobile-menu-toggle`),s=document.getElementById(`mobile-nav-drawer`);o&&s&&(o.addEventListener(`click`,e=>{e.stopPropagation();let t=s.classList.toggle(`open`);o.classList.toggle(`open`,t),o.setAttribute(`aria-expanded`,t?`true`:`false`)}),document.addEventListener(`click`,e=>{!s.contains(e.target)&&!o.contains(e.target)&&(s.classList.remove(`open`),o.classList.remove(`open`),o.setAttribute(`aria-expanded`,`false`))})),document.querySelectorAll(`.mobile-menu-item`).forEach((e,t)=>{e.addEventListener(`click`,()=>{s&&s.classList.remove(`open`),o&&(o.classList.remove(`open`),o.setAttribute(`aria-expanded`,`false`)),this.goToPage(t)})})}showPageInstant(e){this.currentIndex=e,this.pages.forEach((t,n)=>{t.classList.remove(`active`,`flipping-out-forward`,`flipping-in-forward`,`flipping-out-backward`,`flipping-in-backward`),n===e&&t.classList.add(`active`)}),this.applyProgressiveOffScreenDrift(e),this.updateControls()}applyProgressiveOffScreenDrift(e){if(!this.container||!this.comicBook)return;this.container.style.transform=`none`;let t=e*3,n=(this.pages.length-1-e)*3;this.comicBook.style.boxShadow=`
+      0 20px 45px -10px rgba(15, 23, 42, 0.22),
+      -${t+4}px 8px 18px rgba(15, 23, 42, 0.15),
+      ${n+4}px 8px 18px rgba(15, 23, 42, 0.15),
+      0 0 0 1px rgba(15, 23, 42, 0.08)
+    `,this.container.style.setProperty(`--page-index`,e)}goToPage(e,t=!0){if(this.isFlipping||e===this.currentIndex||e<0||e>=this.pages.length)return;this.isFlipping=!0;let n=e>this.currentIndex,r=this.pages[this.currentIndex],i=this.pages[e];if(this.pages.forEach(e=>{e.classList.remove(`flipping-out-forward`,`flipping-in-forward`,`flipping-out-backward`,`flipping-in-backward`)}),n?(r.classList.add(`flipping-out-forward`),i.classList.add(`flipping-in-forward`)):(r.classList.add(`flipping-out-backward`),i.classList.add(`flipping-in-backward`)),this.currentIndex=e,this.applyProgressiveOffScreenDrift(e),this.updateControls(),t){let e=i.dataset.pageId;e&&window.history.pushState(null,``,`#${e}`)}setTimeout(()=>{r.classList.remove(`active`,`flipping-out-forward`,`flipping-out-backward`),i.classList.remove(`flipping-in-forward`,`flipping-in-backward`),i.classList.add(`active`),this.isFlipping=!1,window.scrollTo({top:0,behavior:`smooth`}),this.parallaxEngine&&this.parallaxEngine.setupTiltCards()},this.flipDuration)}nextPage(){this.currentIndex<this.pages.length-1&&this.goToPage(this.currentIndex+1)}previousPage(){this.currentIndex>0&&this.goToPage(this.currentIndex-1)}updateControls(){if(this.tabs.forEach((e,t)=>{t===this.currentIndex?e.classList.add(`active`):e.classList.remove(`active`)}),this.prevBtn&&(this.prevBtn.disabled=this.currentIndex===0),this.nextBtn&&(this.nextBtn.disabled=this.currentIndex===this.pages.length-1),this.pageIndicator&&this.pages[this.currentIndex]){let e=this.pages[this.currentIndex].dataset.pageTitle||`Page ${this.currentIndex+1}`;this.pageIndicator.textContent=`PAGE ${this.currentIndex+1} / ${this.pages.length} • ${e.toUpperCase()}`}document.querySelectorAll(`.mobile-menu-item`).forEach((e,t)=>{t===this.currentIndex?e.classList.add(`active`):e.classList.remove(`active`)})}},n=`modulepreload`,r=function(e,t){return new URL(e,t).href},i={},a=function(e,t,a){let o=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),s=document.querySelector(`meta[property=csp-nonce]`),c=s?.nonce||s?.getAttribute(`nonce`);function l(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function u(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}o=l(t.map(t=>{if(t=r(t,a),t=u(t),t in i)return;i[t]=!0;let o=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let r=e[n];if(r.href===t&&(!o||r.rel===`stylesheet`))return}let s=document.createElement(`link`);if(s.rel=o?`stylesheet`:n,o||(s.as=`script`),s.crossOrigin=``,s.href=t,c&&s.setAttribute(`nonce`,c),document.head.appendChild(s),o)return new Promise((e,n)=>{s.addEventListener(`load`,e),s.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function s(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return o.then(t=>{for(let e of t||[])e.status===`rejected`&&s(e.reason);return e().catch(s)})},o=async e=>{try{if(typeof window<`u`&&typeof window.confetti==`function`)window.confetti(e);else{let t=await a(()=>import(`https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/+esm`),[],import.meta.url),n=t.default||t;typeof n==`function`&&n(e)}}catch{}},s=class{constructor(){this.storageKey=`drnos_pull_box_v2`,this.items=this.loadItems(),this.init()}loadItems(){try{let e=localStorage.getItem(this.storageKey);if(e)return JSON.parse(e)}catch(e){console.warn(`Could not load pull list from localStorage`,e)}return[{id:`nr-1`,title:`Chrono Knight #1: Masters of Time`,publisher:`Dr. No Exclusive`,price:4.99,quantity:1,variant:`Foil Virgin Variant`},{id:`nr-2`,title:`Night Blade #1: Neo-Kyoto Protocol`,publisher:`Image Comics`,price:4.99,quantity:1,variant:`Regular Cover A`}]}saveItems(){try{localStorage.setItem(this.storageKey,JSON.stringify(this.items))}catch(e){console.warn(`Could not save pull list`,e)}}addItem(e){let t=this.items.find(t=>t.id===e.id||t.title===e.title);t?t.quantity=(t.quantity||1)+1:this.items.push({id:e.id||`custom-`+Date.now(),title:e.title,publisher:e.publisherLabel||e.publisher||`Comic Series`,price:Number(e.price)||4.99,quantity:1,variant:e.variant||`Standard Cover`}),this.saveItems(),this.render(),this.updatePullBadge(),o({particleCount:35,spread:60,origin:{y:.8},colors:[`#facc15`,`#ef4444`,`#0284c7`]})}removeItem(e){this.items.splice(e,1),this.saveItems(),this.render(),this.updatePullBadge()}updateQuantity(e,t){if(this.items[e]){if(this.items[e].quantity+=t,this.items[e].quantity<=0){this.removeItem(e);return}this.saveItems(),this.render(),this.updatePullBadge()}}getCalculations(){let e=this.items.reduce((e,t)=>e+t.quantity,0),t=this.items.reduce((e,t)=>e+t.price*t.quantity,0),n=0,r=`Standard Member`;e>=10?(n=.2,r=`SuperStore Elite (20% OFF)`):e>=5?(n=.15,r=`VIP Pull Box (15% OFF)`):e>=1&&(n=.1,r=`Subscriber Rate (10% OFF)`);let i=t*n,a=t-i;return{totalTitles:e,subtotal:t,discountPercent:n*100,discountAmount:i,finalTotal:a,tierName:r}}updatePullBadge(){let e=document.getElementById(`header-pull-count`),t=document.getElementById(`tab-pull-badge`),n=this.items.reduce((e,t)=>e+t.quantity,0);e&&(e.textContent=n),t&&(t.textContent=n)}init(){this.container=document.getElementById(`pulllist-items-container`),this.summaryContainer=document.getElementById(`pulllist-summary-container`),this.customForm=document.getElementById(`pull-custom-form`),this.customForm&&this.customForm.addEventListener(`submit`,e=>{e.preventDefault();let t=document.getElementById(`pull-custom-title`),n=document.getElementById(`pull-custom-publisher`);t&&t.value.trim()&&(this.addItem({title:t.value.trim(),publisherLabel:n?n.value.trim():`Custom Title`,price:4.99}),t.value=``,n&&(n.value=``))}),this.render(),this.updatePullBadge()}render(){if(!this.container||!this.summaryContainer)return;this.items.length===0?this.container.innerHTML=`
+        <div style="text-align: center; padding: 3rem 1rem; background: var(--bg-surface); border: 2px dashed var(--border-subtle); border-radius: 10px;">
+          <h3 class="font-display" style="font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">YOUR PULL-BOX IS CURRENTLY EMPTY</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Never miss an issue! Add upcoming Wednesday drops or custom ongoing series below.</p>
+        </div>
+      `:(this.container.innerHTML=this.items.map((e,t)=>`
+        <div class="pull-item-row">
+          <div style="flex: 1;">
+            <div style="font-weight: 800; font-size: 1.05rem; color: #0f172a;">${e.title}</div>
+            <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 0.75rem; margin-top: 0.2rem;">
+              <span><strong>Pub:</strong> ${e.publisher}</span>
+              <span><strong>Cover:</strong> ${e.variant||`Standard`}</span>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.25rem;">
+            <div style="font-family: var(--font-display); font-size: 1.25rem; color: #0f172a;">$${(e.price*e.quantity).toFixed(2)}</div>
+            <div style="display: flex; align-items: center; gap: 0.35rem; background: var(--bg-surface-elevated); border: 2px solid #0f172a; border-radius: 6px; padding: 0.2rem;">
+              <button class="pull-qty-btn" data-action="dec" data-index="${t}" style="background: none; border: none; color: #0f172a; cursor: pointer; padding: 0 6px; font-weight: 900;">-</button>
+              <span style="font-weight: 800; min-width: 18px; text-align: center; color: #0f172a;">${e.quantity}</span>
+              <button class="pull-qty-btn" data-action="inc" data-index="${t}" style="background: none; border: none; color: #0f172a; cursor: pointer; padding: 0 6px; font-weight: 900;">+</button>
+            </div>
+            <button class="pull-remove-btn" data-index="${t}" style="background: var(--comic-red); border: 1px solid #0f172a; color: #fff; border-radius: 4px; padding: 0.3rem 0.5rem; cursor: pointer; font-size: 0.8rem; font-weight: 700;">✕</button>
+          </div>
+        </div>
+      `).join(``),this.container.querySelectorAll(`.pull-qty-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=parseInt(e.dataset.index),n=e.dataset.action;this.updateQuantity(t,n===`inc`?1:-1)})}),this.container.querySelectorAll(`.pull-remove-btn`).forEach(e=>{e.addEventListener(`click`,()=>{let t=parseInt(e.dataset.index);this.removeItem(t)})}));let e=this.getCalculations();this.summaryContainer.innerHTML=`
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 2px solid #0f172a; padding-bottom: 0.75rem;">
+        <h3 class="font-display" style="font-size: 1.4rem; color: #0f172a;">BOX SUMMARY</h3>
+        <span class="pull-badge-discount">${e.tierName}</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.95rem; margin-bottom: 1.25rem;">
+        <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+          <span>Active Pulls:</span>
+          <strong style="color: #0f172a;">${e.totalTitles} titles / issues</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+          <span>Estimated Retail:</span>
+          <span>$${e.subtotal.toFixed(2)}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: var(--comic-green);">
+          <span>Dr. No's Subscriber Savings (${e.discountPercent}%):</span>
+          <span>-$${e.discountAmount.toFixed(2)}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
+          <span>Bag & Board Protection:</span>
+          <span style="color: #0f172a; font-weight: 800;">FREE</span>
+        </div>
+      </div>
+
+      <div style="border-top: 2px solid #0f172a; padding-top: 0.85rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: baseline;">
+        <span style="font-family: var(--font-display); font-size: 1.2rem; color: #0f172a;">ESTIMATED TOTAL:</span>
+        <span class="comic-title-burst" style="font-size: 1.6rem; color: #0f172a;">$${e.finalTotal.toFixed(2)}</span>
+      </div>
+
+      <button id="btn-export-pull" class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">
+        RESERVE / EXPORT PULL CODE 🚀
+      </button>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">
+        Drop off at Dr. No's Blackwell Square or email to manager@drnos.com for instant box setup.
+      </p>
+    `;let t=document.getElementById(`btn-export-pull`);t&&t.addEventListener(`click`,()=>this.showExportModal())}showExportModal(){let e=this.getCalculations(),t=document.getElementById(`generic-modal-backdrop`),n=document.getElementById(`generic-modal-title`),r=document.getElementById(`generic-modal-body`);if(!t||!r)return;let i=`DRNO-PULL-`+Math.random().toString(36).substring(2,8).toUpperCase();n.textContent=`DR. NO'S PULL BOX RESERVATION`,r.innerHTML=`
+      <div style="text-align: center; margin-bottom: 1.5rem;">
+        <div class="sound-burst" style="font-size: 1.1rem; margin-bottom: 0.75rem;">RESERVATION CODE GENERATED</div>
+        <div style="font-family: var(--font-mono); font-size: 1.8rem; font-weight: 900; background: #0f172a; color: var(--comic-yellow); padding: 0.75rem; border: 2px solid var(--comic-yellow); border-radius: 8px; letter-spacing: 0.15em;">
+          ${i}
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
+          Bring this code to Dr. No's Comics in Marietta or present it at the counter for your subscriber discount.
+        </p>
+      </div>
+
+      <div style="background: #f8fafc; border: 2px solid #0f172a; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+        <h4 style="color: #0f172a; font-family: var(--font-display); margin-bottom: 0.5rem;">RESERVED TITLES:</h4>
+        <ul style="list-style: square inside; font-size: 0.9rem; color: #334155; line-height: 1.6;">
+          ${this.items.map(e=>`<li><strong>${e.title}</strong> (${e.quantity}x) — $${(e.price*e.quantity).toFixed(2)}</li>`).join(``)}
+        </ul>
+      </div>
+
+      <div style="display: flex; gap: 1rem;">
+        <button id="btn-copy-pull-code" class="btn btn-primary" style="flex: 1;">
+          📋 COPY RESERVATION SLIP
+        </button>
+        <button id="btn-close-modal-action" class="btn btn-secondary">
+          CLOSE
+        </button>
+      </div>
+    `,t.classList.add(`open`);let a=document.getElementById(`btn-copy-pull-code`);a&&a.addEventListener(`click`,()=>{let t=`DR. NO'S PULL BOX RESERVATION\nCode: ${i}\nItems:\n`+this.items.map(e=>`- ${e.title} (${e.quantity}x)`).join(`
+`)+`\nTotal Estimated: $${e.finalTotal.toFixed(2)}`;navigator.clipboard.writeText(t).then(()=>{a.textContent=`COPIED TO CLIPBOARD! ✨`})});let o=document.getElementById(`btn-close-modal-action`);o&&o.addEventListener(`click`,()=>t.classList.remove(`open`))}},c=[{id:`tcg-pokemon-friday`,game:`Pokémon TCG`,gameClass:`game-pokemon`,logo:`./assets/logo_pokemon.png`,event:`Pokemon and the Open Anime Gaming League`,dayTime:`Fridays: Weekly starting at 4:00 pm`,entry:`$7 per monthly season`,prize:`To Be Announced each Season`,format:`Open Anime & Pokémon League Play`,banner:`./assets/tcg_arena.jpg`,spotsLeft:16},{id:`tcg-mtg-draft-friday`,game:`Magic: The Gathering`,gameClass:`game-mtg`,logo:`./assets/logo_mtg.png`,event:`Friday Night Magic Draft`,dayTime:`Fridays: Weekly starting at 6:00 pm`,entry:`$20.00`,prize:`FNM Exclusive Promos!`,format:`Booster Draft (3 Packs) + Swiss`,banner:`./assets/tcg_arena.jpg`,spotsLeft:12},{id:`tcg-yugioh-friday`,game:`Yu-Gi-Oh!`,gameClass:`game-yugioh`,logo:`./assets/logo_yugioh.png`,event:`Yu-Gi-Oh Konami Sanctioned Tournaments`,dayTime:`Fridays: Weekly starting at 7:00 pm`,entry:`$5.00 for one event`,prize:`Booster packs (Spots are limited!)`,format:`Konami Sanctioned Constructed Swiss`,banner:`./assets/tcg_arena.jpg`,spotsLeft:14},{id:`tcg-onepiece-sat`,game:`One Piece CCG`,gameClass:`game-onepiece`,logo:`./assets/logo_onepiece.png`,event:`One Piece CCG Tournament (2nd Saturday of Every Month)`,dayTime:`2nd Saturday of Every Month (Call for Upcoming Info)`,entry:`$5.00`,prize:`Tournament Prize Pack`,format:`Official Bandai Constructed Swiss`,banner:`./assets/tcg_arena.jpg`,spotsLeft:18},{id:`tcg-yugioh-celebration`,game:`Yu-Gi-Oh!`,gameClass:`game-yugioh`,logo:`./assets/logo_yugioh.png`,event:`Yu-Gi-Oh Celebration! Konami Weekend Events`,dayTime:`Saturdays (Call for information on upcoming events)`,entry:`$5.00`,prize:`Yu-Gi-Oh Playmat`,format:`Konami Sanctioned Weekend Celebration`,banner:`./assets/tcg_arena.jpg`,spotsLeft:16},{id:`tcg-yugioh-preview`,game:`Yu-Gi-Oh!`,gameClass:`game-yugioh`,logo:`./assets/logo_yugioh.png`,event:`Yu-Gi-Oh Konami Preview Weekend Events`,dayTime:`Saturdays (Call for information on upcoming events)`,entry:`$20.00`,prize:`Yu-Gi-Oh Playmat & everyone gets a Special Pre-release Tournament Promo card`,format:`Konami Official Preview & Sealed`,banner:`./assets/tcg_arena.jpg`,spotsLeft:20},{id:`tcg-mtg-prerelease`,game:`Magic: The Gathering`,gameClass:`game-mtg`,logo:`./assets/logo_mtg.png`,event:`Magic: The Gathering Pre-release Tournaments`,dayTime:`Saturdays (Call for information on upcoming events)`,entry:`TBA`,prize:`Magic Boosters & everyone gets a Special Pre-release Tournament Promo card`,format:`Prerelease Sealed Deck + Swiss`,banner:`./assets/tcg_arena.jpg`,spotsLeft:24},{id:`tcg-mtg-release`,game:`Magic: The Gathering`,gameClass:`game-mtg`,logo:`./assets/logo_mtg.png`,event:`Magic: The Gathering Release Tournament`,dayTime:`Saturdays (Call for information on upcoming events)`,entry:`TBA`,prize:`Magic Boosters & everyone gets a Special Release Tournament Promo card`,format:`Release Championship Swiss`,banner:`./assets/tcg_arena.jpg`,spotsLeft:24},{id:`tcg-mtg-gameday`,game:`Magic: The Gathering`,gameClass:`game-mtg`,logo:`./assets/logo_mtg.png`,event:`Magic: The Gathering Game Day`,dayTime:`Saturdays (Call for information on upcoming events)`,entry:`TBA`,prize:`TBA & everyone gets a Special Game Day Promo card`,format:`Standard / Modern Game Day`,banner:`./assets/tcg_arena.jpg`,spotsLeft:24}],l=[{pageNumber:1,title:`Page 1: The Rift in Blackwell Square`,narration:`Marietta, Georgia — 11:00 PM. Inside the hallowed aisles of Dr. No's SuperStore...`,panels:[{caption:`PANEL 1`,dialog:`Look at the long boxes! The quantum spectrum is spiking!`,speaker:`Captain Nova`},{caption:`PANEL 2`,dialog:`Hold steady! The multiverse is bleeding into our back-issue vault!`,speaker:`Chrono Knight`}]},{pageNumber:2,title:`Page 2: The Quantum Convergence`,narration:`A burst of golden energy illuminates the vintage comic racks...`,panels:[{caption:`PANEL 3`,dialog:`KA-POW! The temporal lock is broken! Every comic ever written is alive!`,speaker:`Night Blade`},{caption:`PANEL 4`,dialog:`Welcome to Dr. No's — where legends never go out of print!`,speaker:`Dr. No`}]}],u=class{constructor(){this.pages=l,this.currentPageIndex=0,this.isOpen=!1,this.init()}init(){this.modal=document.getElementById(`comic-reader-modal`),this.pageNumberDisplay=document.getElementById(`reader-page-num`),this.pageLeftEl=document.getElementById(`reader-page-left`),this.pageRightEl=document.getElementById(`reader-page-right`),this.btnPrev=document.getElementById(`reader-btn-prev`),this.btnNext=document.getElementById(`reader-btn-next`),this.btnClose=document.getElementById(`reader-btn-close`),this.btnPrev&&this.btnPrev.addEventListener(`click`,()=>this.previousPage()),this.btnNext&&this.btnNext.addEventListener(`click`,()=>this.nextPage()),this.btnClose&&this.btnClose.addEventListener(`click`,()=>this.close()),window.addEventListener(`keydown`,e=>{this.isOpen&&(e.key===`Escape`&&this.close(),e.key===`ArrowRight`&&this.nextPage(),e.key===`ArrowLeft`&&this.previousPage())})}open(e=0){this.isOpen=!0,this.currentPageIndex=e,this.modal&&(this.modal.classList.add(`open`),document.documentElement.classList.add(`modal-open`),document.body.classList.add(`modal-open`)),this.render()}close(){this.isOpen=!1,this.modal&&(this.modal.classList.remove(`open`),document.documentElement.classList.remove(`modal-open`),document.body.classList.remove(`modal-open`))}nextPage(){this.currentPageIndex<this.pages.length-1&&(this.currentPageIndex++,this.render())}previousPage(){this.currentPageIndex>0&&(this.currentPageIndex--,this.render())}render(){let e=this.pages[this.currentPageIndex];e&&(this.pageNumberDisplay&&(this.pageNumberDisplay.textContent=`ISSUE SPREAD ${this.currentPageIndex+1} / ${this.pages.length}`),this.btnPrev&&(this.btnPrev.disabled=this.currentPageIndex===0),this.btnNext&&(this.btnNext.disabled=this.currentPageIndex===this.pages.length-1),this.pageLeftEl&&(this.pageLeftEl.innerHTML=`
+        <div class="reader-caption">DR. NO'S QUANTUM ARCHIVE • MARIETTA, GA</div>
+        <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">${e.title}</h3>
+        <p style="font-family: var(--font-comic); font-style: italic; font-size: 0.95rem; line-height: 1.4; margin-bottom: 1rem; color: #334155;">
+          "${e.narration}"
+        </p>
+        
+        <div style="flex: 1; border: 3px solid #0f172a; border-radius: 6px; overflow: hidden; position: relative; background: #0f172a; min-height: 240px; box-shadow: var(--shadow-comic);">
+          <img src="./assets/hero_banner.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Comic Scene Artwork" />
+          <div class="sound-burst" style="position: absolute; bottom: 15px; left: 15px; font-size: 1.2rem; transform: rotate(-8deg);">
+            CRACKLE!
+          </div>
+        </div>
+      `),this.pageRightEl&&(this.pageRightEl.innerHTML=`
+        <div style="display: flex; flex-direction: column; gap: 1rem; height: 100%;">
+          ${e.panels.map((e,t)=>`
+            <div class="reader-comic-panel" style="flex: 1; min-height: 160px; padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, #fff 0%, #f8fafc 100%); position: relative; border-color: #0f172a;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-family: var(--font-display); font-size: 1rem; background: #0f172a; color: var(--comic-yellow); padding: 0.1rem 0.5rem; border-radius: 4px;">${e.caption}</span>
+                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: #64748b; font-weight: 700;">SPEAKER: ${e.speaker}</span>
+              </div>
+              
+              <div style="background: #ffffff; border: 2px solid #0f172a; border-radius: 12px; padding: 0.75rem 1rem; font-family: var(--font-comic); font-weight: 700; font-size: 0.95rem; line-height: 1.3; box-shadow: 2px 2px 0 #0f172a; margin-top: 0.5rem; position: relative; color: #0f172a;">
+                "${e.dialog}"
+                <div style="position: absolute; bottom: -8px; left: 24px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 8px solid #0f172a;"></div>
+              </div>
+
+              <div style="display: flex; justify-content: flex-end; margin-top: 0.5rem;">
+                <div class="sound-burst ${t%2==0?`red`:`blue`}" style="font-size: 0.95rem;">
+                  ${t%2==0?`KA-POW!`:`THWIP!`}
+                </div>
+              </div>
+            </div>
+          `).join(``)}
+        </div>
+      `))}},d=class{constructor(e,t,n){this.pullList=e,this.reader=t,this.pageEngine=n,this.activeFilter=`all`,this.searchQuery=``,this.currentTheme=localStorage.getItem(`drnos_theme`)||`light`,this.init()}init(){this.applyTheme(this.currentTheme),this.setupThemeSelector(),this.setupStoreStatus(),this.setupSideSlideshow(),this.setupFCBDCountdown(),this.renderTournaments(),this.setupModals(),this.setupQuickTriggers()}setupSideSlideshow(){let e=document.getElementById(`side-spotlight-slideshow`);if(!e)return;let t=e.querySelectorAll(`.slideshow-slide`);if(t.length<=1)return;let n=0;setInterval(()=>{t[n].classList.remove(`active`),n=(n+1)%t.length,t[n].classList.add(`active`)},4500)}applyTheme(e){this.currentTheme=e,e===`light`?document.documentElement.removeAttribute(`data-theme`):document.documentElement.setAttribute(`data-theme`,e),localStorage.setItem(`drnos_theme`,e),document.querySelectorAll(`.theme-toggle-btn`).forEach(t=>{t.innerHTML=e===`dark`?`☀️`:`🌙`,t.title=e===`dark`?`Switch to Light Mode`:`Switch to Dark Graphic Novel Mode`})}setupThemeSelector(){document.querySelectorAll(`.theme-toggle-btn`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=this.currentTheme===`light`?`dark`:`light`;this.applyTheme(n);let r=n===`dark`?`Dark Graphic Novel Mode ✨`:`Modern Clean Light Mode ✨`;this.showThemeToast(e,r)})})}setupFCBDCountdown(){let e=document.getElementById(`fcbd-days`),t=document.getElementById(`fcbd-hours`),n=document.getElementById(`fcbd-minutes`),r=document.getElementById(`fcbd-seconds`),i=document.getElementById(`fcbd-target-date`);if(!e||!t||!n||!r)return;let a=(()=>{let e=new Date,t=e.getFullYear(),n=e=>{let t=(6-new Date(e,4,1,9,0,0).getDay()+7)%7;return new Date(e,4,1+t,9,0,0)},r=n(t);return e.getTime()>r.getTime()+864e5&&(r=n(t+1)),r})();i&&(i.textContent=`Next FCBD: ${a.toLocaleDateString(`en-US`,{weekday:`short`,month:`short`,day:`numeric`,year:`numeric`})}`);let o=()=>{let o=new Date().getTime(),s=a.getTime()-o;if(s<=0){e.textContent=`00`,t.textContent=`00`,n.textContent=`00`,r.textContent=`00`,i&&(i.textContent=`🎉 FREE COMIC BOOK DAY IS TODAY! 🎉`);return}let c=Math.floor(s/864e5),l=Math.floor(s%864e5/36e5),u=Math.floor(s%36e5/6e4),d=Math.floor(s%6e4/1e3);e.textContent=String(c).padStart(2,`0`),t.textContent=String(l).padStart(2,`0`),n.textContent=String(u).padStart(2,`0`),r.textContent=String(d).padStart(2,`0`)};o(),setInterval(o,1e3)}setupStoreStatus(){let e=document.getElementById(`store-live-status`);if(!e)return;let t=new Date,n=t.getDay(),r=t.getHours(),i=!1;i=n===0?r>=12&&r<18:r>=11&&r<20,e.innerHTML=i?`
+        <span style="display: inline-block; width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981;"></span>
+        <strong style="color: var(--comic-green); font-weight: 800;">STORE IS OPEN NOW</strong> • Blackwell Sq, Marietta
+      `:`
+        <span style="display: inline-block; width: 10px; height: 10px; background: var(--comic-red); border-radius: 50%;"></span>
+        <strong class="store-closed-status">CURRENTLY CLOSED</strong> • Opens 11 AM Tomorrow
+      `}renderTournaments(){let e=document.getElementById(`tcg-events-grid`);e&&(e.innerHTML=c.map(e=>`
+      <div class="tournament-card tilt-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; min-height: 48px;">
+          ${e.logo?`
+            <img src="${e.logo}" alt="${e.game}" style="max-height: 42px; max-width: 140px; object-fit: contain;" />
+          `:`
+            <span class="game-icon-pill ${e.gameClass}">
+              ⚔️ ${e.game}
+            </span>
+          `}
+          <span style="font-size: 0.78rem; color: var(--comic-yellow); font-weight: 800; background: var(--bg-surface); padding: 0.2rem 0.6rem; border-radius: 4px; border: 1px solid var(--comic-yellow);">
+            ${e.game}
+          </span>
+        </div>
+
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); line-height: 1.3; margin-top: 0.3rem;">
+          ${e.event}
+        </h4>
+
+        <div style="background: var(--bg-surface-elevated); border: 2px solid var(--border-comic); border-radius: 6px; padding: 0.65rem 0.85rem; font-size: 0.85rem;">
+          <div class="event-time-highlight" style="margin-bottom: 0.25rem;">🕒 ${e.dayTime}</div>
+          <div style="color: var(--text-secondary); margin-bottom: 0.15rem;">Format: <strong>${e.format}</strong></div>
+          <div style="color: var(--text-secondary);">Cost: <strong style="color: var(--text-primary);">${e.entry}</strong></div>
+        </div>
+
+        <div class="amber-highlight-box" style="padding: 0.5rem 0.75rem; font-size: 0.82rem; margin-top: auto;">
+          <strong class="event-prize-highlight">🏆 PRIZE / REWARDS:</strong>
+          <div style="color: var(--text-primary); font-weight: 700; margin-top: 0.15rem;">${e.prize}</div>
+        </div>
+      </div>
+    `).join(``))}setupModals(){let e=document.getElementById(`generic-modal-backdrop`),t=document.getElementById(`generic-modal-close`);e&&t&&(t.addEventListener(`click`,()=>{e.classList.remove(`open`),document.documentElement.classList.remove(`modal-open`),document.body.classList.remove(`modal-open`)}),e.addEventListener(`click`,t=>{t.target===e&&(e.classList.remove(`open`),document.documentElement.classList.remove(`modal-open`),document.body.classList.remove(`modal-open`))}))}setupQuickTriggers(){let e=document.getElementById(`hero-btn-events`);e&&e.addEventListener(`click`,()=>{let e=this.pageEngine.pages.findIndex(e=>e.getAttribute(`data-page-id`)===`events`);e!==-1&&this.pageEngine.goToPage(e)});let t=document.getElementById(`hero-btn-pull-list`);t&&t.addEventListener(`click`,()=>{let e=this.pageEngine.pages.findIndex(e=>e.getAttribute(`data-page-id`)===`ordering`);e!==-1&&this.pageEngine.goToPage(e)});let n=document.getElementById(`hero-btn-new-releases`);n&&n.addEventListener(`click`,()=>{let e=this.pageEngine.pages.findIndex(e=>e.getAttribute(`data-page-id`)===`newreleases`);e!==-1&&this.pageEngine.goToPage(e)})}showThemeToast(e,t){if(!e)return;if(this.themeToastEl&&document.body.contains(this.themeToastEl)){clearTimeout(this.themeToastTimeout),this.themeToastEl.innerHTML=`<span>🎨</span> <span>${t}</span>`,this.themeToastEl.classList.remove(`updating`),this.themeToastEl.offsetWidth,this.themeToastEl.classList.add(`updating`),this.positionThemeToast(e,this.themeToastEl),this.themeToastTimeout=setTimeout(()=>{this.dismissThemeToast()},2200);return}let n=document.createElement(`div`);n.className=`theme-popover-toast`,n.innerHTML=`<span>🎨</span> <span>${t}</span>`,document.body.appendChild(n),this.themeToastEl=n,this.positionThemeToast(e,n),this.themeToastTimeout=setTimeout(()=>{this.dismissThemeToast()},2200)}positionThemeToast(e,t){let n=e.getBoundingClientRect(),r=t.getBoundingClientRect(),i=n.bottom+8,a=n.right-r.width;a<12&&(a=12),a+r.width>window.innerWidth-12&&(a=window.innerWidth-r.width-12),t.style.top=`${i}px`,t.style.left=`${a}px`}dismissThemeToast(){this.themeToastEl&&document.body.contains(this.themeToastEl)&&(this.themeToastEl.style.opacity=`0`,this.themeToastEl.style.transform=`translateY(-6px)`,setTimeout(()=>{this.themeToastEl&&this.themeToastEl.parentNode&&(this.themeToastEl.remove(),this.themeToastEl=null)},250))}showToast(e){let t=document.getElementById(`comic-toast-container`);if(!t)return;let n=document.createElement(`div`);n.className=`comic-toast`,n.innerHTML=`<span>💥</span> <span>${e}</span>`,t.appendChild(n),setTimeout(()=>{n.style.opacity=`0`,n.style.transform=`translateY(-10px)`,n.style.transition=`all 0.3s ease`,setTimeout(()=>n.remove(),300)},3200)}},f=`https://drnoscomicsandgames.blogspot.com/feeds/posts/default?alt=json&max-results=25`,p=`drnos_blog_posts_cache_v2`,m=9e5,h=[{id:`post-new-comics-day-aug-26-2026`,slug:`new-comics-day-is-here-employee-picks-august-26-2026`,title:`New Comics Day is HERE!!! Employee Picks for August 26, 2026!`,publishedDate:`2026-08-26T08:00:00.000-04:00`,formattedDate:`Aug 26, 2026`,author:`Cliff & Dr. No's Staff`,categories:[`New Arrivals`,`Employee Picks`,`Comics`],featuredImage:`https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEipVJ3pvBx0BSKquzQRu8mWKsYqN9FLlHLXDGSqrjvnYiqG9JOq_qDAMVmV_rGHgUCUsTUJok8AYmK_1ze0LJ2fSUI-CQJCeyxMEt0HRq3gZCUB7Y60FybayxDICto3pcjUvpWoDAScBlIDb6fFRALIYdo2YJz8H0XmAxQz-qOA3SoJAiujuMRR/s1600/New-Comic-Book-Day_Rainbow.gif`,excerpt:`Another new week of comics means another round of Dr. No's Staff Picks! Here are this week's picks from those "In the No's": Conan The Barbarian #34, Superman #41, Predator Vs. Planet of the Apes #2, Blood of the Wolf Man #3...`,contentHtml:`
+      <div class="blog-notice-box">
+        <strong>Dr. No’s is open 11am - 8pm Monday - Saturday, 12pm - 6pm Sunday!</strong><br>
+        Curbside Pick-up Available! Call (770) 422-4642 or email manager@drnos.com
+      </div>
+      <p>Another new week of comics means another round of Dr. No's Staff Picks! Here are this week's picks from those "In the <strong><span class="brand-red-highlight">No's</span></strong>":</p>
+      <div class="blog-staff-pick">
+        <h4>Cliff's Pick: Conan: The Barbarian #34 (Titan)</h4>
+        <p>A thrilling new chapter in the saga of the Cimmerian warrior as he faces uncharted horrors on the Hyborian border.</p>
+      </div>
+      <div class="blog-staff-pick">
+        <h4>Ryan's Pick: Superman #41 (DC Comics)</h4>
+        <p>The Man of Steel faces a colossal cosmic trial that threatens Metropolis and beyond in this blockbuster issue.</p>
+      </div>
+      <div class="blog-staff-pick">
+        <h4>Buck's Pick: Predator Vs. Planet of the Apes #2 (Marvel)</h4>
+        <p>The ultimate sci-fi crossover intensifies as the galaxy's deadlier hunter stalks the Simian kingdom.</p>
+      </div>
+      <div class="blog-staff-pick">
+        <h4>Izzy's Pick: Universal Monsters: Blood of the Wolf Man #3 (Image/Skybound)</h4>
+        <p>Classic cinematic horror reborn with spine-chilling art and classic supernatural atmosphere.</p>
+      </div>
+    `,originalUrl:`https://drnoscomicsandgames.blogspot.com/`},{id:`post-dr-nos-best-sellers`,slug:`dr-nos-top-ten-best-sellers-weekly-roundup`,title:`Dr. No's Top 10 Best Sellers & Variant Spotlight`,publishedDate:`2026-08-20T09:30:00.000-04:00`,formattedDate:`Aug 20, 2026`,author:`Cliff Biggers`,categories:[`Best-Sellers`,`Comics`,`Variants`],featuredImage:`https://blogger.googleusercontent.com/img/a/AVvXsEiEr-9QDPhBMdqJbbRv0AbcbLJcXib0o4HdNzcQY0bJIlIiki6sun-LedpK22LRkZZDVJ_kDrGrCfvRBJ6tfl1bfKt_TWYRNy-m4n9D_SfhlJwMAMOm7h5d7SkVZUYyWk7152JfSMaDZQeP7_Udi4dsKWPx3h0db1kqp6hO8CLlN4EyDWcznUbL=s1600`,excerpt:`Check out the top-selling comic books and graphic novels at Dr. No's Comics & Games SuperStore this week, plus key variant covers arriving in stock...`,contentHtml:`
+      <p>Here are the week's hottest titles flying off Dr. No's shelves in Marietta! Subscribers who have these on their pull box enjoy guaranteed holds and up to 20% discounts.</p>
+      <ol>
+        <li><strong>Batman / Spawn Re-Ignition #1</strong> (DC / Image)</li>
+        <li><strong>Ultimate Spider-Man #8</strong> (Marvel)</li>
+        <li><strong>Transformers #11</strong> (Skybound / Image)</li>
+        <li><strong>X-Men #3</strong> (Marvel)</li>
+        <li><strong>Ghost Machine: Rook Exodus #5</strong> (Image)</li>
+      </ol>
+      <p>Visit our counter or update your subscription pull box today!</p>
+    `,originalUrl:`https://drnoscomicsandgames.blogspot.com/`},{id:`post-fnm-magic-pokemon-league`,slug:`friday-night-magic-pokemon-league-weekend-tournament-schedule`,title:`Friday Night Magic & Saturday Pokémon Tournament Schedule`,publishedDate:`2026-08-15T10:00:00.000-04:00`,formattedDate:`Aug 15, 2026`,author:`Dr. No's Gaming Arena`,categories:[`Events`,`Magic: The Gathering`,`Pokemon`,`In-Store Gaming`],featuredImage:`https://blogger.googleusercontent.com/img/a/AVvXsEgHgSp5PoTgb4CamfjAwg94gW5EWJfDk_G3BWxBE5x81HpvD-w1SUFiUxEt2TUuF5pzILy2dSnYqtqLuajbWx0DPEs_Z6SMRrvPpW-tfIHSff1dtcp7lf67A26RcBVURflwqYmvxkxtJLic8YWYMn732OEJhaje6Ycq7PA9BM0kuJchvcOM0oTM=s1600`,excerpt:`Join us every Friday & Saturday in Dr. No's gaming arena for MTG Booster Drafts, Yu-Gi-Oh tournaments, and Pokémon League open play. All skill levels welcome!`,contentHtml:`
+      <p>Looking for organized play in Cobb County? Dr. No's gaming tables are packed with weekly events for Magic: The Gathering, Pokémon TCG, Yu-Gi-Oh!, and One Piece CCG.</p>
+      <h3>Weekly Schedule:</h3>
+      <ul>
+        <li><strong>Fridays 4:00 PM:</strong> Pokémon League (All Ages & Beginners Welcome)</li>
+        <li><strong>Fridays 4:00 PM:</strong> Open Boardgames Play</li>
+        <li><strong>Fridays 6:00 PM:</strong> Magic: The Gathering Booster Draft ($15 entry with prize packs)</li>
+        <li><strong>Fridays 7:00 PM:</strong> Yu-Gi-Oh! Tournament</li>
+        <li><strong>Saturdays:</strong> One Piece & Konami Celebration Tournaments</li>
+      </ul>
+      <p>Join our Discord or call (770) 422-4642 for pre-registration!</p>
+    `,originalUrl:`https://drnoscomicsandgames.blogspot.com/`}],g=new class{constructor(){this.posts=[],this.lastFetched=null,this.isFetching=!1}formatDate(e){if(!e)return`Recent`;try{return new Date(e).toLocaleDateString(`en-US`,{month:`short`,day:`numeric`,year:`numeric`})}catch{return`Recent`}}createSlug(e,t){return e?e.toLowerCase().replace(/[^\w\s-]/g,``).trim().replace(/[\s_-]+/g,`-`).replace(/^-+|-+$/g,``)||`post-${t}`:`post-${t||Date.now()}`}upgradeBloggerImageUrl(e){if(!e)return`./assets/hero_banner.jpg`;let t=e;return t=t.replace(/\/(s|w|h)\d+[^/]*\//g,`/s1600/`),t=t.replace(/=[swh]\d+[^"'\s&]*/g,`=s1600`),t}extractFeaturedImage(e){let t=e.content?e.content.$t:e.summary?e.summary.$t:``;if(t){let e=t.match(/<a[^>]+href=["']([^"']+\.(?:jpg|jpeg|png|gif|webp)(?:\?[^"']*)?)["']/i);if(e&&e[1])return this.upgradeBloggerImageUrl(e[1]);let n=t.match(/<img[^>]+src=["']([^"']+)["']/i);if(n&&n[1])return this.upgradeBloggerImageUrl(n[1])}return e.media$thumbnail&&e.media$thumbnail.url?this.upgradeBloggerImageUrl(e.media$thumbnail.url):`./assets/hero_banner.jpg`}extractExcerpt(e,t=160){if(!e)return``;let n=document.createElement(`div`);n.innerHTML=e,n.querySelectorAll(`script, style`).forEach(e=>e.remove());let r=n.textContent||n.innerText||``;return r=r.replace(/\s+/g,` `).trim(),r.length>t?r.substring(0,t).trim()+`...`:r}sanitizeContentHtml(e){if(!e)return``;let t=document.createElement(`div`);return t.innerHTML=e,t.querySelectorAll(`script, iframe, object, embed`).forEach(e=>e.remove()),t.querySelectorAll(`img`).forEach(e=>{e.setAttribute(`loading`,`lazy`),e.classList.add(`blog-post-inline-img`),e.removeAttribute(`width`),e.removeAttribute(`height`)}),t.querySelectorAll(`a`).forEach(e=>{e.setAttribute(`target`,`_blank`),e.setAttribute(`rel`,`noopener noreferrer`)}),t.innerHTML}parseBloggerEntry(e){let t=e.id?e.id.$t:`post-${Math.random().toString(36).substring(2,9)}`,n=t.split(`post-`)[1]||t.replace(/[^a-zA-Z0-9]/g,`_`),r=e.title?e.title.$t:`Untitled Post`,i=e.published?e.published.$t:new Date().toISOString(),a=e.updated?e.updated.$t:i,o=e.author&&e.author[0]&&e.author[0].name?e.author[0].name.$t:`Dr. No's Staff`,s=e.category?e.category.map(e=>e.term).filter(Boolean):[`Store News`],c=`https://drnoscomicsandgames.blogspot.com/`;if(e.link&&Array.isArray(e.link)){let t=e.link.find(e=>e.rel===`alternate`);t&&t.href&&(c=t.href)}let l=e.content?e.content.$t:e.summary?e.summary.$t:``,u=this.sanitizeContentHtml(l),d=this.extractFeaturedImage(e),f=this.extractExcerpt(l,160);return{id:n,slug:this.createSlug(r,n),title:r,publishedDate:i,updatedDate:a,formattedDate:this.formatDate(i),author:o,categories:s,featuredImage:d,excerpt:f,contentHtml:u,originalUrl:c}}getCachedPosts(){try{let e=localStorage.getItem(p);if(!e)return null;let t=JSON.parse(e);if(t&&t.timestamp&&Date.now()-t.timestamp<m&&Array.isArray(t.posts)&&t.posts.length>0)return this.lastFetched=new Date(t.timestamp),t.posts}catch(e){console.warn(`Error reading blog cache:`,e)}return null}setCachedPosts(e){try{let t={timestamp:Date.now(),posts:e};localStorage.setItem(p,JSON.stringify(t)),this.lastFetched=new Date}catch(e){console.warn(`Error writing blog cache:`,e)}}async fetchLiveFeed(){try{let e=await fetch(f,{headers:{Accept:`application/json`},cache:`no-cache`});if(e.ok){let t=await e.json();if(t.feed&&Array.isArray(t.feed.entry))return t.feed.entry.map(e=>this.parseBloggerEntry(e))}}catch(e){console.warn(`Direct Blogger fetch failed, trying JSONP fallback...`,e)}try{let e=await this.fetchViaJsonp();if(e&&e.feed&&Array.isArray(e.feed.entry))return e.feed.entry.map(e=>this.parseBloggerEntry(e))}catch(e){console.warn(`JSONP fallback failed:`,e)}throw Error(`Could not fetch Blogger feed via direct fetch or JSONP.`)}fetchViaJsonp(){return new Promise((e,t)=>{let n=`bloggerCallback_${Date.now()}_${Math.floor(Math.random()*1e4)}`,r=document.createElement(`script`),i=setTimeout(()=>{a(),t(Error(`JSONP request timed out`))},1e4),a=()=>{clearTimeout(i),delete window[n],r.parentNode&&r.parentNode.removeChild(r)};window[n]=t=>{a(),e(t)},r.src=`https://drnoscomicsandgames.blogspot.com/feeds/posts/default?alt=json-in-script&callback=${n}&max-results=25`,r.onerror=()=>{a(),t(Error(`Failed to load JSONP script`))},document.head.appendChild(r)})}async getPosts(e=!1){if(!e){let e=this.getCachedPosts();if(e)return this.posts=e,this.posts}this.isFetching=!0;try{let e=await this.fetchLiveFeed();if(e&&e.length>0)return this.posts=e,this.setCachedPosts(e),this.isFetching=!1,this.posts}catch(e){console.error(`Error fetching live blog posts:`,e)}this.isFetching=!1;try{let e=localStorage.getItem(p);if(e){let t=JSON.parse(e);if(t.posts&&t.posts.length>0)return this.posts=t.posts,this.posts}}catch{}return this.posts=h,this.posts}getPostBySlugOrId(e){return e&&this.posts.find(t=>t.slug===e||t.id===e||t.id.includes(e)||e.includes(t.slug))||null}getPostNeighbors(e){let t=this.posts.findIndex(t=>t.id===e.id||t.slug===e.slug);return t===-1?{prev:null,next:null}:{prev:t>0?this.posts[t-1]:null,next:t<this.posts.length-1?this.posts[t+1]:null}}getArchiveTimeline(){let e={};return this.posts.forEach(t=>{let n=new Date(t.publishedDate),r=isNaN(n.getFullYear())?`Recent`:n.getFullYear().toString(),i=isNaN(n.getMonth())?`General`:n.toLocaleString(`en-US`,{month:`long`});e[r]||(e[r]={year:r,count:0,months:{}}),e[r].count++,e[r].months[i]||(e[r].months[i]={month:i,count:0,posts:[]}),e[r].months[i].count++,e[r].months[i].posts.push({id:t.id,slug:t.slug,title:t.title,formattedDate:t.formattedDate,author:t.author,categories:t.categories})}),e}async fetchMoreArchivePosts(){let e=this.posts.length+1,t=`https://drnoscomicsandgames.blogspot.com/feeds/posts/default?alt=json&start-index=${e}&max-results=25`;try{let e=await fetch(t,{headers:{Accept:`application/json`},cache:`no-cache`});if(e.ok){let t=await e.json();if(t.feed&&Array.isArray(t.feed.entry)){let e=t.feed.entry.map(e=>this.parseBloggerEntry(e)),n=new Set(this.posts.map(e=>e.id)),r=e.filter(e=>!n.has(e.id));return this.posts=[...this.posts,...r],this.setCachedPosts(this.posts),r}}}catch(t){console.warn(`Direct fetch more failed, trying JSONP...`,t);try{let t=await new Promise((t,n)=>{let r=`bloggerMore_${Date.now()}`,i=document.createElement(`script`),a=setTimeout(()=>{o(),n(Error(`JSONP timeout`))},8e3),o=()=>{clearTimeout(a),delete window[r],i.remove()};window[r]=e=>{o(),t(e)},i.src=`https://drnoscomicsandgames.blogspot.com/feeds/posts/default?alt=json-in-script&start-index=${e}&max-results=25&callback=${r}`,i.onerror=()=>{o(),n(Error(`JSONP error`))},document.head.appendChild(i)});if(t&&t.feed&&Array.isArray(t.feed.entry)){let e=t.feed.entry.map(e=>this.parseBloggerEntry(e)),n=new Set(this.posts.map(e=>e.id)),r=e.filter(e=>!n.has(e.id));return this.posts=[...this.posts,...r],this.setCachedPosts(this.posts),r}}catch(e){console.error(`Failed to load more archive posts:`,e)}}return[]}},_=class{constructor(e){this.pageEngine=e,this.activeCategory=`all`,this.searchQuery=``,this.currentPost=null,this.init()}async init(){this.setupListeners(),await this.loadAndRender(),this.handleInitialRoute()}setupListeners(){let e=document.getElementById(`btn-refresh-blog`);e&&e.addEventListener(`click`,async()=>{e.disabled=!0,e.innerHTML=`<span>⏳</span> Reloading Blog...`;try{await g.getPosts(!0),await this.loadAndRender(),this.showToast(`Blog feed reloaded! 📰✨`)}catch(e){console.error(e),this.showToast(`Could not reload feed. Displaying cached posts.`)}finally{e.disabled=!1,e.innerHTML=`<span>🔄</span> RELOAD BLOG`}});let t=document.getElementById(`blog-search-input`);t&&t.addEventListener(`input`,e=>{this.searchQuery=e.target.value.toLowerCase().trim(),this.renderBlogPageGrid()});let n=document.getElementById(`blog-reader-close`),r=document.getElementById(`blog-reader-modal`);n&&r&&(n.addEventListener(`click`,()=>this.closeArticle()),r.addEventListener(`click`,e=>{e.target===r&&this.closeArticle()}));let i=document.getElementById(`blog-reader-prev`),a=document.getElementById(`blog-reader-next`);i&&i.addEventListener(`click`,()=>{if(this.currentPost){let{prev:e}=g.getPostNeighbors(this.currentPost);e&&this.openArticle(e)}}),a&&a.addEventListener(`click`,()=>{if(this.currentPost){let{next:e}=g.getPostNeighbors(this.currentPost);e&&this.openArticle(e)}});let o=document.getElementById(`blog-reader-share`);o&&o.addEventListener(`click`,()=>{if(this.currentPost){let e=`${window.location.origin}${window.location.pathname}#blog/${this.currentPost.slug}`;navigator.clipboard.writeText(e).then(()=>{this.showToast(`Article link copied to clipboard! 📋`)}).catch(()=>{this.showToast(`Link: `+e)})}}),window.addEventListener(`keydown`,e=>{e.key===`Escape`&&r&&r.classList.contains(`open`)&&this.closeArticle()}),window.addEventListener(`hashchange`,()=>{this.handleRoute(window.location.hash)}),this.setupArchiveListeners()}setupArchiveListeners(){document.querySelectorAll(`.btn-open-blog-archive`).forEach(e=>{e.addEventListener(`click`,e=>{e.preventDefault(),this.openArchiveModal()})});let e=document.getElementById(`blog-archive-close`),t=document.getElementById(`blog-archive-modal`);e&&t&&(e.addEventListener(`click`,()=>this.closeArchiveModal()),t.addEventListener(`click`,e=>{e.target===t&&this.closeArchiveModal()})),document.querySelectorAll(`.btn-load-more-blog`).forEach(e=>{e.addEventListener(`click`,async()=>{e.disabled=!0;let t=e.innerHTML;e.innerHTML=`<span>⏳</span> Loading More Dispatches...`;try{let e=await g.fetchMoreArchivePosts();e&&e.length>0?(this.showToast(`Loaded ${e.length} older posts from the Blogger vault! 📚`),this.renderCategoryChips(g.posts),this.renderBlogPageGrid(g.posts),this.renderArchiveModalContent()):this.showToast(`All available posts are currently loaded.`)}catch(e){console.error(e),this.showToast(`Could not fetch additional posts at this time.`)}finally{e.disabled=!1,e.innerHTML=t}})})}handleInitialRoute(){this.handleRoute(window.location.hash)}handleRoute(e){if(!e)return;let t=e.replace(`#`,``);if(t.startsWith(`blog/`)){let e=t.replace(`blog/`,``),n=g.getPostBySlugOrId(e);n&&this.openArticle(n,!1)}else if(t===`blog`){let e=Array.from(document.querySelectorAll(`.comic-page`)).findIndex(e=>e.dataset.pageId===`blog`);e!==-1&&this.pageEngine&&this.pageEngine.goToPage(e,!1)}}async loadAndRender(){let e=await g.getPosts();this.renderHomeBlogSection(e.slice(0,4)),this.renderCategoryChips(e),this.renderBlogPageGrid(e),this.updateLastUpdatedStatus()}updateLastUpdatedStatus(){let e=document.getElementById(`blog-last-synced`);e&&(e.textContent=g.lastFetched?`Synced with Blogger today at ${g.lastFetched.toLocaleTimeString([],{hour:`2-digit`,minute:`2-digit`})}`:`Synced with Blogger`)}renderHomeBlogSection(e){let t=document.getElementById(`home-blog-cards-grid`);if(t){if(!e||e.length===0){t.innerHTML=`
+        <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; background: var(--bg-surface); border: 2px dashed var(--border-subtle); border-radius: 8px;">
+          <p style="color: var(--text-secondary);">Loading latest dispatches from The Doctor Knows blog...</p>
+        </div>
+      `;return}t.innerHTML=e.map(e=>`
+      <article class="blog-card tilt-card" data-post-id="${e.id}">
+        <div class="blog-card-img-wrap">
+          <img src="${e.featuredImage}" alt="${e.title}" loading="lazy" class="blog-card-img" />
+          <span class="blog-card-date-badge">📅 ${e.formattedDate}</span>
+          ${e.categories.length>0?`
+            <span class="blog-card-cat-badge">${e.categories[0]}</span>
+          `:``}
+        </div>
+
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-author-tag">✍️ ${e.author}</span>
+          </div>
+
+          <h3 class="blog-card-title">${e.title}</h3>
+
+          <p class="blog-card-excerpt">${e.excerpt}</p>
+
+          <div class="blog-card-footer">
+            <button class="btn btn-primary btn-read-post" data-slug="${e.slug}" style="width: 100%; font-size: 0.85rem; padding: 0.45rem 0.85rem;">
+              READ ARTICLE ➔
+            </button>
+          </div>
+        </div>
+      </article>
+    `).join(``),t.querySelectorAll(`.btn-read-post`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.slug,r=g.getPostBySlugOrId(n);r&&this.openArticle(r)})}),t.querySelectorAll(`.blog-card`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.postId,n=g.getPostBySlugOrId(t);n&&this.openArticle(n)})})}}renderCategoryChips(e){let t=document.getElementById(`blog-category-chips`);if(!t)return;let n=new Map;e.forEach(e=>{e.categories.forEach(e=>{n.set(e,(n.get(e)||0)+1)})});let r=Array.from(n.entries()).sort((e,t)=>t[1]-e[1]).slice(0,7).map(e=>e[0]),i=`<button class="filter-chip ${this.activeCategory===`all`?`active`:``}" data-cat="all">All Posts (${e.length})</button>`;r.forEach(e=>{i+=`<button class="filter-chip ${this.activeCategory===e?`active`:``}" data-cat="${e}">${e} (${n.get(e)})</button>`}),t.innerHTML=i,t.querySelectorAll(`.filter-chip`).forEach(e=>{e.addEventListener(`click`,()=>{t.querySelectorAll(`.filter-chip`).forEach(e=>e.classList.remove(`active`)),e.classList.add(`active`),this.activeCategory=e.dataset.cat,this.renderBlogPageGrid()})})}renderBlogPageGrid(e){let t=e||g.posts,n=document.getElementById(`blog-posts-page-grid`);if(!n)return;let r=t.filter(e=>{let t=this.activeCategory===`all`||e.categories.includes(this.activeCategory),n=!this.searchQuery||e.title.toLowerCase().includes(this.searchQuery)||e.excerpt.toLowerCase().includes(this.searchQuery)||e.author.toLowerCase().includes(this.searchQuery)||e.categories.some(e=>e.toLowerCase().includes(this.searchQuery));return t&&n});if(r.length===0){n.innerHTML=`
+        <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; background: var(--bg-surface); border: 2px dashed var(--border-subtle); border-radius: 10px;">
+          <h3 class="font-display" style="font-size: 1.5rem; color: #0f172a;">NO ARTICLES FOUND</h3>
+          <p style="color: var(--text-secondary); margin-top: 0.5rem;">No posts matched category "${this.activeCategory}" or query "${this.searchQuery}".</p>
+        </div>
+      `;return}n.innerHTML=r.map(e=>`
+      <article class="blog-card tilt-card" data-post-id="${e.id}">
+        <div class="blog-card-img-wrap">
+          <img src="${e.featuredImage}" alt="${e.title}" loading="lazy" class="blog-card-img" />
+          <span class="blog-card-date-badge">📅 ${e.formattedDate}</span>
+          ${e.categories.length>0?`
+            <span class="blog-card-cat-badge">${e.categories[0]}</span>
+          `:``}
+        </div>
+
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-author-tag">✍️ ${e.author}</span>
+          </div>
+
+          <h3 class="blog-card-title">${e.title}</h3>
+
+          <p class="blog-card-excerpt">${e.excerpt}</p>
+
+          <div class="blog-card-tags">
+            ${e.categories.slice(0,3).map(e=>`<span class="blog-mini-tag">#${e}</span>`).join(``)}
+          </div>
+
+          <div class="blog-card-footer">
+            <button class="btn btn-primary btn-read-post" data-slug="${e.slug}" style="width: 100%; font-size: 0.85rem; padding: 0.45rem 0.85rem;">
+              READ ARTICLE ➔
+            </button>
+          </div>
+        </div>
+      </article>
+    `).join(``),n.querySelectorAll(`.btn-read-post`).forEach(e=>{e.addEventListener(`click`,t=>{t.stopPropagation();let n=e.dataset.slug,r=g.getPostBySlugOrId(n);r&&this.openArticle(r)})}),n.querySelectorAll(`.blog-card`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.dataset.postId,n=g.getPostBySlugOrId(t);n&&this.openArticle(n)})})}openArticle(e,t=!0){this.currentPost=e;let n=document.getElementById(`blog-reader-modal`),r=document.getElementById(`blog-reader-article-wrap`),i=document.getElementById(`blog-reader-prev`),a=document.getElementById(`blog-reader-next`);if(!n||!r)return;let{prev:o,next:s}=g.getPostNeighbors(e);i&&(i.disabled=!o,i.title=o?`Previous: ${o.title}`:`No previous article`),a&&(a.disabled=!s,a.title=s?`Next: ${s.title}`:`No next article`),r.innerHTML=`
+      <div class="blog-article-header">
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem;">
+          ${e.categories.map(e=>`<span class="blog-card-cat-badge" style="position: static;">🏷️ ${e}</span>`).join(``)}
+        </div>
+        <h1 class="comic-title-burst" style="font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: #0f172a; line-height: 1.25; margin-bottom: 0.85rem; text-shadow: none;">
+          ${e.title}
+        </h1>
+        <div class="blog-article-meta-row">
+          <span>📅 Published: <strong>${e.formattedDate}</strong></span>
+          <span>•</span>
+          <span>✍️ Author: <strong>${e.author}</strong></span>
+          <span>•</span>
+          <span>🏛️ Dr. No's Official Blog</span>
+        </div>
+      </div>
+
+      ${e.featuredImage?`
+        <div class="blog-article-featured-img-wrap">
+          <img src="${e.featuredImage}" alt="${e.title}" class="blog-article-featured-img" />
+        </div>
+      `:``}
+
+      <div class="blog-article-content-body">
+        ${e.contentHtml}
+      </div>
+
+      <div class="blog-article-bottom-bar">
+        <div>
+          <a href="${e.originalUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.85rem;">
+            🔗 View on Original Blogger ↗
+          </a>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" onclick="document.getElementById('blog-reader-close').click();">
+            ← Back to Store
+          </button>
+        </div>
+      </div>
+    `,n.classList.add(`open`),n.setAttribute(`aria-hidden`,`false`),document.documentElement.classList.add(`modal-open`),document.body.classList.add(`modal-open`);let c=document.querySelector(`.blog-reader-scrollable`);c&&(c.scrollTop=0),t&&window.history.pushState(null,``,`#blog/${e.slug}`)}closeArticle(){let e=document.getElementById(`blog-reader-modal`);e&&(e.classList.remove(`open`),e.setAttribute(`aria-hidden`,`true`),document.documentElement.classList.remove(`modal-open`),document.body.classList.remove(`modal-open`),window.location.hash.startsWith(`#blog/`)&&window.history.pushState(null,``,`#home`))}openArchiveModal(){let e=document.getElementById(`blog-archive-modal`);if(!e)return;this.renderArchiveModalContent(),e.classList.add(`open`),e.setAttribute(`aria-hidden`,`false`),document.documentElement.classList.add(`modal-open`),document.body.classList.add(`modal-open`);let t=e.querySelector(`.blog-reader-scrollable`);t&&(t.scrollTop=0)}closeArchiveModal(){let e=document.getElementById(`blog-archive-modal`);e&&(e.classList.remove(`open`),e.setAttribute(`aria-hidden`,`true`),document.documentElement.classList.remove(`modal-open`),document.body.classList.remove(`modal-open`))}renderArchiveModalContent(){let e=document.getElementById(`blog-archive-timeline-content`);if(!e)return;let t=g.getArchiveTimeline(),n=Object.keys(t).sort((e,t)=>t-e);if(n.length===0){e.innerHTML=`
+        <div style="text-align: center; padding: 2rem;">
+          <p style="color: var(--text-secondary);">No archive dispatches loaded yet.</p>
+        </div>
+      `;return}let r=`
+      <div class="archive-vault-intro">
+        <div class="sound-burst" style="font-size: 0.85rem; margin-bottom: 0.4rem;">🏛️ HISTORICAL CHRONICLES</div>
+        <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #0f172a; margin-bottom: 0.4rem;">
+          DR. NO'S BLOG ARCHIVE VAULT
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
+          Browse our complete chronology of weekly comic arrivals, staff recommendations, tournament standings, and vintage grail features.
+        </p>
+      </div>
+
+      <div class="archive-years-list">
+    `;n.forEach((e,n)=>{let i=t[e],a=Object.keys(i.months);r+=`
+        <div class="archive-year-accordion ${n===0?`open`:``}">
+          <div class="archive-year-header" data-year="${e}">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span class="archive-year-badge">${e}</span>
+              <strong style="font-size: 1.05rem; color: var(--text-primary);">Announcements & Dispatches</strong>
+            </div>
+            <span class="archive-count-pill">${i.count} Posts</span>
+          </div>
+
+          <div class="archive-year-body">
+      `,a.forEach(t=>{let n=i.months[t];r+=`
+          <div class="archive-month-group">
+            <h5 class="archive-month-title">📅 ${t} ${e} (${n.count})</h5>
+            <ul class="archive-posts-list">
+              ${n.posts.map(e=>`
+                <li>
+                  <a href="#blog/${e.slug}" class="archive-post-link" data-slug="${e.slug}">
+                    <span class="archive-link-date">${e.formattedDate}</span>
+                    <strong class="archive-link-title">${e.title}</strong>
+                  </a>
+                </li>
+              `).join(``)}
+            </ul>
+          </div>
+        `}),r+=`
+          </div>
+        </div>
+      `}),r+=`
+      </div>
+
+      <div class="archive-vault-footer">
+        <button class="btn btn-primary btn-load-more-blog" style="font-size: 0.88rem;">
+          📥 Load Older Archive Batches
+        </button>
+        <a href="https://drnoscomicsandgames.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.88rem;">
+          🏛️ Complete 18-Year Blogger Archive (2,400+ Posts) ↗
+        </a>
+      </div>
+    `,e.innerHTML=r,e.querySelectorAll(`.archive-year-header`).forEach(e=>{e.addEventListener(`click`,()=>{let t=e.closest(`.archive-year-accordion`);t&&t.classList.toggle(`open`)})}),e.querySelectorAll(`.archive-post-link`).forEach(e=>{e.addEventListener(`click`,t=>{t.preventDefault();let n=e.dataset.slug,r=g.getPostBySlugOrId(n);r&&(this.closeArchiveModal(),this.openArticle(r))})}),e.querySelectorAll(`.btn-load-more-blog`).forEach(e=>{e.addEventListener(`click`,async()=>{e.disabled=!0,e.innerHTML=`<span>⏳</span> Loading Archive Posts...`;try{let e=await g.fetchMoreArchivePosts();e&&e.length>0?(this.showToast(`Loaded ${e.length} historical posts into archive! 📚`),this.renderArchiveModalContent(),this.renderBlogPageGrid(g.posts),this.renderCategoryChips(g.posts)):this.showToast(`All available historical posts are loaded.`)}catch(e){console.error(e)}finally{e.disabled=!1,e.innerHTML=`📥 Load Older Archive Batches`}})})}showToast(e){let t=document.getElementById(`comic-toast-container`);if(!t)return;let n=document.createElement(`div`);n.className=`comic-toast`,n.innerHTML=`<span>📰</span> <span>${e}</span>`,t.appendChild(n),setTimeout(()=>{n.style.opacity=`0`,n.style.transform=`translateY(-10px)`,n.style.transition=`all 0.3s ease`,setTimeout(()=>n.remove(),300)},3200)}},v=()=>{try{let n=new t(new e);new d(new s,new u,n),new _(n),console.log(`💥 Dr. No's Comics & Games SuperStore App Initialized with Live Blogger CMS Integration!`)}catch(e){console.error(`Error initializing Dr. No's SuperStore application:`,e)}};document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,v):v();
