@@ -1,7 +1,7 @@
 {
-  "name": "drnos-comics-superstore",
+  "name": "comic-book-store-template",
   "version": "2.0.0",
-  "description": "Modern web application for Dr. No's Comics & Games SuperStore with 3D page flip and parallax scrolling.",
+  "description": "Modern web application template for comic book and gaming stores with 3D page flip, pull box ordering, and interactive reader.",
   "type": "module",
   "scripts": {
     "dev": "vite",

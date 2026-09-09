@@ -1,5 +1,5 @@
 /**
- * Dr. No's Pull-Box / Comic Subscription Manager
+ * Comic Book Store Template - Pull-Box / Comic Subscription Manager
  * Handles local storage state, dynamic tiered discounts, custom title entries, and reservation export.
  */
 
@@ -20,7 +20,7 @@ const triggerConfetti = async (opts) => {
 
 export class PullListManager {
   constructor() {
-    this.storageKey = 'drnos_pull_box_v2';
+    this.storageKey = 'comic_pull_box_v2';
     this.items = this.loadItems();
     this.init();
   }
@@ -36,15 +36,15 @@ export class PullListManager {
     return [
       {
         id: 'nr-1',
-        title: 'Chrono Knight #1: Masters of Time',
-        publisher: 'Dr. No Exclusive',
+        title: 'Cosmic Crusader #1: Dawn of Eternity',
+        publisher: 'Marvel Comics',
         price: 4.99,
         quantity: 1,
         variant: 'Foil Virgin Variant'
       },
       {
         id: 'nr-2',
-        title: 'Night Blade #1: Neo-Kyoto Protocol',
+        title: 'Neon Shadows #1: Protocol Omega',
         publisher: 'Image Comics',
         price: 4.99,
         quantity: 1,
@@ -75,128 +75,163 @@ export class PullListManager {
         variant: comic.variant || 'Standard Cover'
       });
     }
-
     this.saveItems();
     this.render();
-    this.updatePullBadge();
-
-    // Trigger mini celebratory confetti
+    this.showToast(`Added "${comic.title}" to your Pull Box! 📦✨`);
+    
+    // Play celebratory micro-confetti
     triggerConfetti({
-      particleCount: 35,
-      spread: 60,
-      origin: { y: 0.8 },
-      colors: ['#facc15', '#ef4444', '#0284c7']
+      particleCount: 25,
+      spread: 45,
+      origin: { y: 0.8 }
     });
   }
 
   removeItem(index) {
-    this.items.splice(index, 1);
-    this.saveItems();
-    this.render();
-    this.updatePullBadge();
+    if (index >= 0 && index < this.items.length) {
+      const removed = this.items.splice(index, 1);
+      this.saveItems();
+      this.render();
+      if (removed.length > 0) {
+        this.showToast(`Removed "${removed[0].title}" from Pull Box.`);
+      }
+    }
   }
 
   updateQuantity(index, delta) {
     if (this.items[index]) {
-      this.items[index].quantity += delta;
-      if (this.items[index].quantity <= 0) {
-        this.removeItem(index);
-        return;
-      }
+      this.items[index].quantity = Math.max(1, (this.items[index].quantity || 1) + delta);
       this.saveItems();
       this.render();
-      this.updatePullBadge();
     }
   }
 
-  getCalculations() {
-    const totalTitles = this.items.reduce((sum, item) => sum + item.quantity, 0);
-    const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  addCustomTitle(title, publisher = 'Ongoing Series') {
+    if (!title || !title.trim()) return;
+    this.addItem({
+      id: 'custom-' + Date.now(),
+      title: title.trim(),
+      publisher: publisher.trim() || 'Custom Title',
+      price: 4.99,
+      variant: 'Standard Ongoing'
+    });
+  }
 
-    // Tiered Discount Logic
+  clear() {
+    this.items = [];
+    this.saveItems();
+    this.render();
+    this.showToast('Pull Box cleared.');
+  }
+
+  getCalculations() {
+    const totalTitles = this.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const subtotal = this.items.reduce((sum, item) => sum + ((item.price || 4.99) * (item.quantity || 1)), 0);
+
+    // Tiered Discount Structure:
+    // 5-9 titles: 10% discount
+    // 10-19 titles: 15% discount
+    // 20+ titles: 20% discount
     let discountPercent = 0;
-    let tierName = "Standard Member";
-    if (totalTitles >= 10) {
-      discountPercent = 0.20; // 20% off
-      tierName = "SuperStore Elite (20% OFF)";
+    let tierName = "Standard Subscriber";
+
+    if (totalTitles >= 20) {
+      discountPercent = 20;
+      tierName = "VIP Collector (20% OFF)";
+    } else if (totalTitles >= 10) {
+      discountPercent = 15;
+      tierName = "Premier Pull (15% OFF)";
     } else if (totalTitles >= 5) {
-      discountPercent = 0.15; // 15% off
-      tierName = "VIP Pull Box (15% OFF)";
-    } else if (totalTitles >= 1) {
-      discountPercent = 0.10; // 10% off
-      tierName = "Subscriber Rate (10% OFF)";
+      discountPercent = 10;
+      tierName = "Fan Favorite (10% OFF)";
     }
 
-    const discountAmount = subtotal * discountPercent;
+    const discountAmount = subtotal * (discountPercent / 100);
     const finalTotal = subtotal - discountAmount;
 
     return {
       totalTitles,
       subtotal,
-      discountPercent: discountPercent * 100,
+      discountPercent,
       discountAmount,
       finalTotal,
       tierName
     };
   }
 
-  updatePullBadge() {
-    const countEl = document.getElementById('header-pull-count');
-    const tabBadge = document.getElementById('tab-pull-badge');
-    const total = this.items.reduce((sum, i) => sum + i.quantity, 0);
-    if (countEl) countEl.textContent = total;
-    if (tabBadge) tabBadge.textContent = total;
+  showToast(message) {
+    let toast = document.getElementById('comic-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'comic-toast';
+      toast.className = 'comic-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('visible');
+    setTimeout(() => {
+      toast.classList.remove('visible');
+    }, 3000);
   }
 
   init() {
-    this.container = document.getElementById('pulllist-items-container');
-    this.summaryContainer = document.getElementById('pulllist-summary-container');
-    this.customForm = document.getElementById('pull-custom-form');
+    this.container = document.getElementById('pull-list-items');
+    this.summaryContainer = document.getElementById('pull-list-summary');
+    this.badgeElements = document.querySelectorAll('.pull-count-badge, #tab-pull-badge');
+    this.customForm = document.getElementById('custom-pull-form');
 
     if (this.customForm) {
       this.customForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const titleInput = document.getElementById('pull-custom-title');
-        const pubInput = document.getElementById('pull-custom-publisher');
-        if (titleInput && titleInput.value.trim()) {
-          this.addItem({
-            title: titleInput.value.trim(),
-            publisherLabel: pubInput ? pubInput.value.trim() : 'Custom Title',
-            price: 4.99
-          });
-          titleInput.value = '';
-          if (pubInput) pubInput.value = '';
+        const inputTitle = document.getElementById('custom-title-input');
+        const inputPublisher = document.getElementById('custom-publisher-input');
+        if (inputTitle && inputTitle.value) {
+          this.addCustomTitle(inputTitle.value, inputPublisher ? inputPublisher.value : 'Ongoing');
+          inputTitle.value = '';
+          if (inputPublisher) inputPublisher.value = '';
         }
       });
     }
 
     this.render();
-    this.updatePullBadge();
   }
 
   render() {
+    // Update count badges
+    const totalTitles = this.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    this.badgeElements.forEach(badge => {
+      if (badge) {
+        badge.textContent = totalTitles;
+        badge.style.display = totalTitles > 0 ? 'inline-flex' : 'none';
+      }
+    });
+
     if (!this.container || !this.summaryContainer) return;
 
     if (this.items.length === 0) {
       this.container.innerHTML = `
-        <div style="text-align: center; padding: 3rem 1rem; background: var(--bg-surface); border: 2px dashed var(--border-subtle); border-radius: 10px;">
-          <h3 class="font-display" style="font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">YOUR PULL-BOX IS CURRENTLY EMPTY</h3>
-          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Never miss an issue! Add upcoming Wednesday drops or custom ongoing series below.</p>
+        <div class="empty-pull-box" style="text-align: center; padding: 2.5rem 1rem; color: var(--text-muted);">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">📦</div>
+          <h4 style="font-family: var(--font-display); font-size: 1.3rem; color: var(--text-primary); margin-bottom: 0.5rem;">YOUR PULL BOX IS EMPTY</h4>
+          <p style="font-size: 0.9rem; max-width: 320px; margin: 0 auto 1.25rem;">
+            Browse the <strong>New Arrivals Radar</strong> or enter custom ongoing titles below to start your subscription!
+          </p>
         </div>
       `;
     } else {
       this.container.innerHTML = this.items.map((item, index) => `
-        <div class="pull-item-row">
-          <div style="flex: 1;">
-            <div style="font-weight: 800; font-size: 1.05rem; color: #0f172a;">${item.title}</div>
-            <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 0.75rem; margin-top: 0.2rem;">
-              <span><strong>Pub:</strong> ${item.publisher}</span>
-              <span><strong>Cover:</strong> ${item.variant || 'Standard'}</span>
+        <div class="pull-item-card" data-index="${index}" style="display: flex; align-items: center; justify-content: space-between; padding: 0.85rem; border-bottom: 1.5px dashed var(--border-subtle); background: var(--bg-card); margin-bottom: 0.4rem; border-radius: 6px;">
+          <div style="flex: 1; padding-right: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem;">
+              <span class="badge" style="background: #0f172a; color: #fff; font-size: 0.7rem; padding: 0.15rem 0.45rem;">${item.publisher}</span>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted);">${item.variant || 'Standard'}</span>
             </div>
+            <strong style="color: var(--text-primary); font-size: 0.95rem; display: block; line-height: 1.3;">${item.title}</strong>
+            <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--comic-red); font-weight: 700;">$${(item.price || 4.99).toFixed(2)}</span>
           </div>
-          <div style="display: flex; align-items: center; gap: 1.25rem;">
-            <div style="font-family: var(--font-display); font-size: 1.25rem; color: #0f172a;">$${(item.price * item.quantity).toFixed(2)}</div>
-            <div style="display: flex; align-items: center; gap: 0.35rem; background: var(--bg-surface-elevated); border: 2px solid #0f172a; border-radius: 6px; padding: 0.2rem;">
+
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; border: 1.5px solid #0f172a; border-radius: 4px; background: #fff;">
               <button class="pull-qty-btn" data-action="dec" data-index="${index}" style="background: none; border: none; color: #0f172a; cursor: pointer; padding: 0 6px; font-weight: 900;">-</button>
               <span style="font-weight: 800; min-width: 18px; text-align: center; color: #0f172a;">${item.quantity}</span>
               <button class="pull-qty-btn" data-action="inc" data-index="${index}" style="background: none; border: none; color: #0f172a; cursor: pointer; padding: 0 6px; font-weight: 900;">+</button>
@@ -241,7 +276,7 @@ export class PullListManager {
           <span>$${calc.subtotal.toFixed(2)}</span>
         </div>
         <div style="display: flex; justify-content: space-between; color: var(--comic-green);">
-          <span>Dr. No's Subscriber Savings (${calc.discountPercent}%):</span>
+          <span>Subscriber Savings (${calc.discountPercent}%):</span>
           <span>-$${calc.discountAmount.toFixed(2)}</span>
         </div>
         <div style="display: flex; justify-content: space-between; color: var(--text-secondary);">
@@ -259,7 +294,7 @@ export class PullListManager {
         RESERVE / EXPORT PULL CODE 🚀
       </button>
       <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center;">
-        Drop off at Dr. No's Blackwell Square or email to manager@drnos.com for instant box setup.
+        Present at the store counter or email to contact@yourcomicshop.example for instant subscription setup.
       </p>
     `;
 
@@ -277,9 +312,9 @@ export class PullListManager {
 
     if (!modalBackdrop || !modalBody) return;
 
-    const pullCode = 'DRNO-PULL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const pullCode = 'COMIC-PULL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
-    modalTitle.textContent = "DR. NO'S PULL BOX RESERVATION";
+    modalTitle.textContent = "COMIC STORE PULL BOX RESERVATION";
     modalBody.innerHTML = `
       <div style="text-align: center; margin-bottom: 1.5rem;">
         <div class="sound-burst" style="font-size: 1.1rem; margin-bottom: 0.75rem;">RESERVATION CODE GENERATED</div>
@@ -287,7 +322,7 @@ export class PullListManager {
           ${pullCode}
         </div>
         <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;">
-          Bring this code to Dr. No's Comics in Marietta or present it at the counter for your subscriber discount.
+          Bring this code to the store counter or email it to set up your subscription pull box discount!
         </p>
       </div>
 
@@ -313,7 +348,7 @@ export class PullListManager {
     const copyBtn = document.getElementById('btn-copy-pull-code');
     if (copyBtn) {
       copyBtn.addEventListener('click', () => {
-        const textToCopy = `DR. NO'S PULL BOX RESERVATION\nCode: ${pullCode}\nItems:\n` + 
+        const textToCopy = `COMIC STORE PULL BOX RESERVATION\nCode: ${pullCode}\nItems:\n` + 
           this.items.map(i => `- ${i.title} (${i.quantity}x)`).join('\n') + 
           `\nTotal Estimated: $${calc.finalTotal.toFixed(2)}`;
         

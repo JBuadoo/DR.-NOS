@@ -25,9 +25,9 @@ const startApp = () => {
     // Initialize Dynamic Blogger Native Blog Engine
     const blogUI = new BlogUI(pageEngine);
 
-    console.log("💥 Dr. No's Comics & Games SuperStore App Initialized with Live Blogger CMS Integration!");
+    console.log("💥 Comic Book Store Template Initialized Successfully!");
   } catch (err) {
-    console.error("Error initializing Dr. No's SuperStore application:", err);
+    console.error("Error initializing Comic Book Store application:", err);
   }
 };
 

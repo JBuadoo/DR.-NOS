@@ -1,5 +1,5 @@
 /**
- * Dr. No's Comics & Games - Blog UI & Article Reader Manager
+ * Comic Book Store Template - Blog UI & Article Reader Manager
  * Controls homepage "From the Blog" cards, dedicated Blog issue page, and native article reader view.
  */
 
@@ -416,7 +416,7 @@ export class BlogUI {
           <span>•</span>
           <span>✍️ Author: <strong>${post.author}</strong></span>
           <span>•</span>
-          <span>🏛️ Dr. No's Official Blog</span>
+          <span>🏛️ Store Announcements</span>
         </div>
       </div>
 
@@ -529,7 +529,7 @@ export class BlogUI {
       <div class="archive-vault-intro">
         <div class="sound-burst" style="font-size: 0.85rem; margin-bottom: 0.4rem;">🏛️ HISTORICAL CHRONICLES</div>
         <h3 style="font-family: var(--font-display); font-size: 1.5rem; color: #0f172a; margin-bottom: 0.4rem;">
-          DR. NO'S BLOG ARCHIVE VAULT
+          COMIC STORE BLOG ARCHIVE VAULT
         </h3>
         <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.25rem;">
           Browse our complete chronology of weekly comic arrivals, staff recommendations, tournament standings, and vintage grail features.
@@ -588,9 +588,6 @@ export class BlogUI {
         <button class="btn btn-primary btn-load-more-blog" style="font-size: 0.88rem;">
           📥 Load Older Archive Batches
         </button>
-        <a href="https://drnoscomicsandgames.blogspot.com/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-comic" style="font-size: 0.88rem;">
-          🏛️ Complete 18-Year Blogger Archive (2,400+ Posts) ↗
-        </a>
       </div>
     `;
 

@@ -1,5 +1,5 @@
 /**
- * Dr. No's Interactive Mini-Comic Sampler & Reader Engine
+ * Interactive Mini-Comic Sampler & Reader Engine
  */
 
 import { SAMPLER_COMIC_PAGES } from './comicData.js';
@@ -92,14 +92,14 @@ export class ComicReader {
     // Render Left Page (Atmospheric Story & Artwork)
     if (this.pageLeftEl) {
       this.pageLeftEl.innerHTML = `
-        <div class="reader-caption">DR. NO'S QUANTUM ARCHIVE • MARIETTA, GA</div>
+        <div class="reader-caption">COMIC SPREAD SAMPLER • ISSUE PREVIEW</div>
         <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: #0f172a; margin-bottom: 0.5rem;">${pageData.title}</h3>
         <p style="font-family: var(--font-comic); font-style: italic; font-size: 0.95rem; line-height: 1.4; margin-bottom: 1rem; color: #334155;">
           "${pageData.narration}"
         </p>
         
         <div style="flex: 1; border: 3px solid #0f172a; border-radius: 6px; overflow: hidden; position: relative; background: #0f172a; min-height: 240px; box-shadow: var(--shadow-comic);">
-          <img src="./assets/hero_banner.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="Comic Scene Artwork" />
+          <img src="./assets/blank_white.png" style="width: 100%; height: 100%; object-fit: cover; background: #ffffff;" alt="Comic Scene Artwork" />
           <div class="sound-burst" style="position: absolute; bottom: 15px; left: 15px; font-size: 1.2rem; transform: rotate(-8deg);">
             CRACKLE!
           </div>

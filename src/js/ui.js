@@ -11,7 +11,7 @@ export class UIManager {
     this.pageEngine = pageEngine;
     this.activeFilter = 'all';
     this.searchQuery = '';
-    this.currentTheme = localStorage.getItem('drnos_theme') || 'light';
+    this.currentTheme = localStorage.getItem('comic_theme') || 'light';
 
     this.init();
   }
@@ -23,6 +23,8 @@ export class UIManager {
     this.setupSideSlideshow();
     this.setupFCBDCountdown();
     this.renderTournaments();
+    this.renderNewReleases();
+    this.renderGrailVault();
     this.setupModals();
     this.setupQuickTriggers();
   }
@@ -49,7 +51,7 @@ export class UIManager {
     } else {
       document.documentElement.setAttribute('data-theme', theme);
     }
-    localStorage.setItem('drnos_theme', theme);
+    localStorage.setItem('comic_theme', theme);
 
     document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
       btn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
@@ -154,7 +156,7 @@ export class UIManager {
     if (isOpen) {
       statusPill.innerHTML = `
         <span style="display: inline-block; width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 8px #10b981;"></span>
-        <strong style="color: var(--comic-green); font-weight: 800;">STORE IS OPEN NOW</strong> • Blackwell Sq, Marietta
+        <strong style="color: var(--comic-green); font-weight: 800;">STORE IS OPEN NOW</strong> • Welcome!
       `;
     } else {
       statusPill.innerHTML = `
@@ -199,6 +201,148 @@ export class UIManager {
         </div>
       </div>
     `).join('');
+  }
+
+  renderNewReleases() {
+    const container = document.getElementById('new-releases-grid');
+    if (!container) return;
+
+    const filtered = this.activeFilter === 'all' 
+      ? NEW_RELEASES 
+      : NEW_RELEASES.filter(c => c.publisher.toLowerCase() === this.activeFilter.toLowerCase());
+
+    container.innerHTML = filtered.map(comic => `
+      <div class="comic-release-card tilt-card" data-comic-id="${comic.id}">
+        <span class="publisher-tag publisher-${comic.publisher}">
+          ${comic.publisherLabel || comic.publisher}
+        </span>
+        <div class="release-cover-wrap">
+          <img src="${comic.cover}" alt="${comic.title}" loading="lazy" />
+        </div>
+        <div class="release-body">
+          <div>
+            <h4 class="release-title">${comic.title}</h4>
+            <div class="release-creators">By ${comic.writer} & ${comic.artist}</div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.4; margin-bottom: 0.75rem;">
+              ${comic.description}
+            </p>
+          </div>
+          <div class="release-footer">
+            <span class="release-price">$${comic.price.toFixed(2)}</span>
+            <button class="btn btn-primary btn-add-pull" data-id="${comic.id}" style="font-size: 0.78rem; padding: 0.35rem 0.65rem;">
+              + PULL BOX
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Attach Pull Box buttons
+    container.querySelectorAll('.btn-add-pull').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const comic = NEW_RELEASES.find(c => c.id === btn.dataset.id);
+        if (comic && this.pullList) {
+          this.pullList.addItem(comic);
+        }
+      });
+    });
+
+    // Category filter buttons
+    const filterButtons = document.querySelectorAll('.releases-filter-btn');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        this.activeFilter = btn.dataset.filter || 'all';
+        this.renderNewReleases();
+      });
+    });
+  }
+
+  renderGrailVault() {
+    const container = document.getElementById('grail-vault-grid');
+    if (!container) return;
+
+    container.innerHTML = GRAIL_VAULT.map(grail => `
+      <div class="slab-card tilt-card" data-grail-id="${grail.id}">
+        <div class="slab-header">
+          <div class="slab-grade-box">
+            <span class="slab-grade-score">${grail.grade}</span>
+            <span class="slab-grade-type">${grail.gradeType}</span>
+          </div>
+          <span class="slab-cert-badge">${grail.cert}</span>
+        </div>
+        <div class="slab-cover-frame">
+          <img src="${grail.cover}" alt="${grail.title}" class="slab-cover-img" loading="lazy" />
+          <div class="slab-hologram"></div>
+        </div>
+        <div class="slab-info">
+          <h4 class="slab-title">${grail.title}</h4>
+          <div class="slab-meta">
+            <span>${grail.publisher}</span>
+            <span class="slab-price">$${grail.price.toLocaleString()}</span>
+          </div>
+          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 0.5rem; line-height: 1.4;">
+            ${grail.notes}
+          </p>
+          <div style="margin-top: 0.75rem;">
+            <button class="btn btn-outline-comic btn-inquire-grail" data-id="${grail.id}" style="width: 100%; font-size: 0.82rem; padding: 0.4rem 0.6rem;">
+              💎 INQUIRE / HOLD SLAB
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    container.querySelectorAll('.btn-inquire-grail').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const grail = GRAIL_VAULT.find(g => g.id === btn.dataset.id);
+        if (grail) {
+          this.showGrailModal(grail);
+        }
+      });
+    });
+  }
+
+  showGrailModal(grail) {
+    const modalBackdrop = document.getElementById('generic-modal-backdrop');
+    const modalTitle = document.getElementById('generic-modal-title');
+    const modalBody = document.getElementById('generic-modal-body');
+
+    if (!modalBackdrop || !modalBody) return;
+
+    modalTitle.textContent = `COLLECTOR SLAB: ${grail.title}`;
+    modalBody.innerHTML = `
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; align-items: center; margin-bottom: 1.5rem;">
+        <div style="max-width: 180px; flex-shrink: 0;">
+          <img src="${grail.cover}" alt="${grail.title}" style="width: 100%; border: 2px solid #0f172a; border-radius: 6px;" />
+        </div>
+        <div style="flex: 1; min-width: 240px;">
+          <div class="sound-burst red" style="font-size: 0.85rem; margin-bottom: 0.4rem;">${grail.gradeType} • GRADE ${grail.grade}</div>
+          <h3 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 0.5rem; color: #0f172a;">${grail.title}</h3>
+          <p style="font-size: 0.9rem; color: #334155; line-height: 1.5; margin-bottom: 0.75rem;">${grail.notes}</p>
+          <div style="font-family: var(--font-mono); font-size: 1.4rem; font-weight: 900; color: #0f172a; margin-bottom: 0.5rem;">
+            $${grail.price.toLocaleString()}
+          </div>
+          <span style="font-size: 0.75rem; color: #64748b; font-family: var(--font-mono);">Certification: ${grail.cert}</span>
+        </div>
+      </div>
+      <div style="background: #f1f5f9; border: 1.5px solid #0f172a; border-radius: 6px; padding: 0.85rem; margin-bottom: 1.25rem; font-size: 0.88rem; color: #334155;">
+        To place a hold on this vintage graded comic, call our counter at <strong>(555) 123-4567</strong> or email <strong>contact@yourcomicshop.example</strong> referencing <strong>${grail.cert}</strong>.
+      </div>
+      <button id="btn-close-grail-modal" class="btn btn-primary" style="width: 100%;">
+        CLOSE WINDOW
+      </button>
+    `;
+
+    modalBackdrop.classList.add('open');
+
+    const closeBtn = document.getElementById('btn-close-grail-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modalBackdrop.classList.remove('open'));
+    }
   }
 
   setupModals() {
@@ -248,7 +392,7 @@ export class UIManager {
     const heroReleasesBtn = document.getElementById('hero-btn-new-releases');
     if (heroReleasesBtn) {
       heroReleasesBtn.addEventListener('click', () => {
-        const arrivalsIdx = this.pageEngine.pages.findIndex(p => p.getAttribute('data-page-id') === 'newreleases');
+        const arrivalsIdx = this.pageEngine.pages.findIndex(p => p.getAttribute('data-page-id') === 'new-arrivals' || p.getAttribute('data-page-id') === 'newreleases');
         if (arrivalsIdx !== -1) {
           this.pageEngine.goToPage(arrivalsIdx);
         }
